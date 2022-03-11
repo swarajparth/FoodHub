@@ -1,0 +1,14 @@
+
+.nav-link{
+    color: #ad0903;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #3643fc;
+}

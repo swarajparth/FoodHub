@@ -1,0 +1,152 @@
+header2{
+    background-color: rgb(241, 57, 57);
+    display: flex;
+}
+
+#i-logo{
+    color: white;
+    align-items: center;
+    padding-left: 50px;
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+.ul2{
+    list-style: none;
+    display: flex;   
+}
+.li2{
+    padding: 10px;
+    font-size: 20px;
+    padding-left: 25px;
+}
+
+a{
+    color: rgb(241, 223, 190);
+}
+#hero-list-content{
+    padding-left: 28%;
+    padding-top: 10px;
+}
+
+#hero-search{
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+#hero-cart{
+    margin-left: 10px;
+    padding: 4px;
+}
+
+#hero-cart:hover{
+    border-radius: 50%;
+    color: black;
+    background-color: white;
+
+}
+
+#signin{
+    padding-left: 10px;
+}
+
+#dashboard{
+    width: 100%;
+    height: 800px;
+    background-image: url(./img/all-bg.jpg);
+    background-repeat: no-repeat;
+    padding: 20px;
+}
+#dashboard h1{
+    color: aliceblue;
+    margin-left: 200px;
+    font-family: cursive;
+    font-size: 60px;
+}
+#dashboard-caption{
+    margin-top: 100px;
+    padding-left: 40px;
+    padding-top: 80px;
+
+    
+}
+
+#Order-now{
+    display: block;
+    margin-left: 45%;
+    margin-top: 20px;
+    cursor: pointer;
+}
+#about-us{
+    height: 470px;
+}
+#chef-img{
+    padding-top: 20px;
+}
+
+#about-us h1{
+    color: rgba(27, 26, 26, 0.952);
+    padding-left: 0;
+    margin: 0;
+    font-size: 70px;
+
+}
+#abt-container p{
+    padding-top: 30px;
+
+}
+
+
+#services{
+    width: 100%;
+    height: 750px;
+    background-image: url(./img/service-bg.jpg) ;
+    background-repeat: no-repeat;
+    background-size: contain;
+    
+}
+#our-services h1{
+    align-items: center;
+    padding-left: 35%;
+    font-size: 70px;
+}
+
+
+#canteen-card{
+    margin-left: 15%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+#nescafe-card{
+    margin-top: 5%;
+}
+
+
+#spl-dishes{
+    height: 800px;
+    background-image: url();
+}
+
+
+footer2{
+    background-color: rgb(78, 73, 73);
+    height: 200px;
+    display: flex;
+}
+
+#f-logo{
+    color: white;
+    align-items: center;
+    padding-left: 50px;
+    font-size: 40px;
+    letter-spacing: 2px;
+    
+}
+
+#f-navigation{
+    padding-top: 50px;
+}
+
+
+
