@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <>
       <Nav>
-        <NavLink style={{ color: "#15cdfc" }} to="/">
+        <NavLink to="/">
           <b>FoodHub</b>
         </NavLink>
         <Bars />
