@@ -56,7 +56,7 @@ router.get("/signin", async(req, res)=>{
         const token = await userExist.generateAuthToken();
         
         res.cookie("jwtoken", token, {
-            expires:new Date(Date.now() + 25892000000),
+            expires:new Date(Date.now() + 180000000),
             httpOnly:true
         });
 
@@ -123,7 +123,7 @@ router.get("/signin-restaurant", async(req, res)=>{
         const token = await userExist.generateAuthToken();
 
         res.cookie("jwtoken", token, {
-            expires:new Date(Date.now() + 25892000000),
+            expires:new Date(Date.now() + 180000000),
             httpOnly:true
         });
 

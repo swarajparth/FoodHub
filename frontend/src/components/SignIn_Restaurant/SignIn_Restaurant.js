@@ -3,17 +3,15 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import "../NavLink.css";
-import Footer from "../layout/Footer";
 
 function Copyright(props) {
   return (
@@ -36,6 +34,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn_Restaurant() {
+  const navigate = useNavigate;
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -45,9 +44,31 @@ export default function SignIn_Restaurant() {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    
+    const {email, password} = values;
+
+    const res = await fetch("/signin-restaurant", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password
+      }),
+    });
+
+    const data = await res.json();
+    if (res.status === 422 || res.status === 400 || !data) {
+      window.alert(data.error);
+      console.log(data.error);
+    } else {
+      window.alert(data.message);
+      console.log(data.message);
+      navigate("/");
+    }
   };
 
   return (
