@@ -97,7 +97,11 @@ export default function Register_Restaurant() {
     });
 
     const data = await res.json();
-    if (res.status === 422 || !data) {
+    if(!data){
+      window.alert("Technical error");
+      console.log("Technical error");
+    }
+    else if (res.status === 422) {
       window.alert(data.error);
       console.log(data.error);
     } else {

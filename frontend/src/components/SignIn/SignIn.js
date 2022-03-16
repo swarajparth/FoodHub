@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import "../NavLink.css";
+import {UserContext} from "../../App"
 
 function Copyright(props) {
   return (
@@ -34,7 +35,17 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  
+  const {state, dispatch} = React.useContext(UserContext);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (state) {
+      navigate("/account", {replace: true});
+    }
+  }, [state])
+
+
   const [values, setValues] = React.useState({
     email: "",
     password: ""
@@ -61,13 +72,20 @@ export default function SignIn() {
     });
 
     const data = await res.json();
-    if (res.status === 422 || res.status === 400 || !data) {
+
+    if(!data){
+      window.alert("Technical error");
+      console.log("Technical error");
+    }
+    else if (res.status === 422 || res.status === 400) {
       window.alert(data.error);
       console.log(data.error);
     } else {
+      dispatch(true);
+      sessionStorage.setItem('isLoggedIn', true);
       window.alert(data.message);
       console.log(data.message);
-      navigate("/");
+      navigate("/account");
     }
   };
 

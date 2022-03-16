@@ -61,13 +61,17 @@ export default function SignIn_Restaurant() {
     });
 
     const data = await res.json();
-    if (res.status === 422 || res.status === 400 || !data) {
+    if(!data){
+      window.alert("Technical error");
+      console.log("Technical error");
+    }
+    else if (res.status === 422 || res.status === 400) {
       window.alert(data.error);
       console.log(data.error);
     } else {
       window.alert(data.message);
       console.log(data.message);
-      navigate("/");
+      navigate("/account");
     }
   };
 

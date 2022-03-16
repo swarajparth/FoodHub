@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken');
 require('../db/connection');
 const User = require("../models/userSchema");
 const Restaurant = require("../models/restaurantSchema");
+const authenticate = require('../middleware/authenticate');
+const authenticateRestaurant = require('../middleware/authenticateRestaurant');
+
 
 //Middleware
 const middleware = (req, res, next)=>{
@@ -18,16 +21,42 @@ router.get("/", (req, res)=>{
     res.send("My app");
 });
 
-router.get("/account", (req, res)=>{
-    res.send("My app");
-});
+
+router.get("/signout", (req, res)=>{
+    res.clearCookie('jwtoken', {path:'/'});
+    console.log(`Signed out successfully.`);
+    res.status(200).send("Restaurant signed out successfully.");
+})
+
+router.get("/signout-restaurant", (req, res)=>{
+    res.clearCookie('jwtoken', {path:'/'});
+    console.log(`Signed out successfully.`);
+    res.status(200).send("User signed out successfully.");
+})
+
+
+// router.get("/getdata", authenticate, (req, res)=>{
+//     console.log(`Authenticated`);
+//     res.send(req.rootUser);
+// })
+
+router.get("/account", authenticate, (req, res)=>{
+    console.log(`Authenticated`);
+    res.send(req.rootUser);
+})
+
+router.get("/account-restaurant", authenticateRestaurant, (req, res)=>{
+    console.log(`Authenticated`);
+    res.send(req.rootRestaurant);
+})
 
 router.get("/menu", (req, res)=>{
     res.send("My app");
 });
 
-router.get("/cart", (req, res)=>{
-    res.send("My app");
+router.get("/cart", authenticate, (req, res)=>{
+    console.log(`Authenticated`);
+    res.send(req.rootUser);
 });
 
 
@@ -37,8 +66,7 @@ router.get("/about", middleware, (req, res)=>{
 });
 
 
-
-router.get("/signin", async(req, res)=>{
+router.post("/signin", async(req, res)=>{
     const{email, password } = req.body;
 
     if(!email || !password){
@@ -105,7 +133,7 @@ router.post("/register", async(req, res)=>{
 });
 
 
-router.get("/signin-restaurant", async(req, res)=>{
+router.post("/signin-restaurant", async(req, res)=>{
     const{email, password } = req.body;
 
     if(!email || !password){
@@ -120,10 +148,10 @@ router.get("/signin-restaurant", async(req, res)=>{
         }
 
         const isMatch = bcrypt.compare(password, restaurantExist.password);
-        const token = await userExist.generateAuthToken();
+        const token = await restaurantExist.generateAuthToken();
 
         res.cookie("jwtoken", token, {
-            expires:new Date(Date.now() + 180000000),
+            expires:new Date(Date.now() + 450000000),
             httpOnly:true
         });
 

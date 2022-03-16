@@ -35,7 +35,7 @@ export const Bars = styled(FaBars)`
     top: 0;
     right: 0;
     transform: translate(-100%, 75%);
-    font-size: 1.8rem;
+    // font-size: 1.8rem;
     cursor: pointer;
   }
 `;

@@ -22,6 +22,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Navbar from "../layout/Navbar";
+import {UserContext} from "../../App"
 
 function Copyright(props) {
   return (
@@ -44,7 +45,17 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Register() {
+
+  const {state, dispatch} = React.useContext(UserContext);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if(state){
+      navigate("/account", {replace: true});
+    }
+  }, [state])
+
+  
   const [values, setValues] = React.useState({
     name: "",
     email: "",
@@ -97,7 +108,11 @@ export default function Register() {
     });
 
     const data = await res.json();
-    if (res.status === 422 || !data) {
+    if(!data){
+      window.alert("Technical error");
+      console.log("Technical error");
+    }
+    else if (res.status === 422) {
       window.alert(data.error);
       console.log(data.error);
     } else {

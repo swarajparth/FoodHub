@@ -1,12 +1,12 @@
+import Navbar from '../layout/Navbar';
 import './app.css'
 
 
 function About() {
 
     return (
-        <div>
-        <header2>
-          {/*header start*/}
+        <>
+        {/* <header2>
           <div className="container-fluid">
             <div className="row align-items-center">
               <div className="hero-header">
@@ -42,7 +42,8 @@ function About() {
               </div>
             </div>
           </div>
-        </header2>
+        </header2> */}
+        <Navbar/>
         <section id="dashboard">
           <div className="row">
             <h1 id="dashboard-caption">We belive good food offer great smile</h1>
@@ -110,7 +111,7 @@ function About() {
             </div>
           </div>
         </section>
-        <footer2>
+        {/* <footer2>
           <div className="container-fluid">
             <div className="row ">
               <div className="col-3">
@@ -125,8 +126,8 @@ function About() {
               </div>
             </div>
           </div>
-        </footer2>
-      </div>
+        </footer2> */}
+      </>
 
     );
   }

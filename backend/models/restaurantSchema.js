@@ -22,15 +22,7 @@ const restaurantSchema=new mongoose.Schema  ({
     confirm_password : {
         type : String,
         required : true
-    },
-    tokens:[
-        {
-            token:{
-                type: String,
-                required: true
-            }
-        }
-    ]
+    }
 })
 
 
@@ -39,7 +31,7 @@ const restaurantSchema=new mongoose.Schema  ({
 restaurantSchema.methods.generateAuthToken = async function(){
     try{
         let token = jwt.sign({_id:this._id}, process.env.SECRET_KEY);
-        this.tokens = this.tokens.concat({ token: token});
+        // this.tokens = this.tokens.concat({ token: token});
         await this.save();
         return token;
     }catch(err){
