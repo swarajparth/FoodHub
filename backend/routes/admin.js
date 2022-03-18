@@ -25,13 +25,13 @@ router.get("/", (req, res)=>{
 router.get("/signout", (req, res)=>{
     res.clearCookie('jwtoken', {path:'/'});
     console.log(`Signed out successfully.`);
-    res.status(200).send("Restaurant signed out successfully.");
+    res.status(200).send("User signed out successfully.");
 })
 
 router.get("/signout-restaurant", (req, res)=>{
     res.clearCookie('jwtoken', {path:'/'});
     console.log(`Signed out successfully.`);
-    res.status(200).send("User signed out successfully.");
+    res.status(200).send("Restaurant signed out successfully.");
 })
 
 
@@ -43,6 +43,11 @@ router.get("/signout-restaurant", (req, res)=>{
 router.get("/account", authenticate, (req, res)=>{
     console.log(`Authenticated`);
     res.send(req.rootUser);
+})
+
+router.get("/orders", authenticateRestaurant, (req, res)=>{
+    console.log(`Authenticated`);
+    res.send(req.rootRestaurant);
 })
 
 router.get("/account-restaurant", authenticateRestaurant, (req, res)=>{
@@ -159,7 +164,7 @@ router.post("/signin-restaurant", async(req, res)=>{
             return res.status(400).json({error: "Invalid credentials"});
         }
         else{
-            res.json({message: "SignIn successful"});
+            res.json({message: "Restaurant SignIn successful"});
         }
 
     } catch(err){
@@ -182,7 +187,7 @@ router.post("/register-restaurant", async(req, res)=>{
     try{
         const restaurantExist = await Restaurant.findOne({email:email});
             if(restaurantExist){
-                return res.status(422).json({error: "User already exists"});
+                return res.status(422).json({error: "Restaurant already exists"});
             }
 
             const restaurant = new Restaurant({name, mobile, email, password, confirm_password});
@@ -190,7 +195,7 @@ router.post("/register-restaurant", async(req, res)=>{
             //hashing password and confirm_password before saving them to the database
             await restaurant.save();
 
-            res.status(201).json({message: "User registered successfully"});
+            res.status(201).json({message: "Restaurant registered successfully"});
 
         } catch(err){
             console.log(err);

@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink, useNavigate} from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import "../NavLink.css";
+import {UserContext} from "../../App"
 
 function Copyright(props) {
   return (
@@ -34,7 +35,21 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn_Restaurant() {
-  const navigate = useNavigate;
+  
+  const {state, dispatch} = React.useContext(UserContext);
+  const {state2, dispatch2} = React.useContext(UserContext);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (state2) {
+      navigate("/account-restaurant", {replace: true});
+    }
+    else if (state) {
+      navigate("/account", {replace: true});
+    }
+  }, [state, state2])
+
+
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -69,9 +84,11 @@ export default function SignIn_Restaurant() {
       window.alert(data.error);
       console.log(data.error);
     } else {
+      dispatch2(true);
+      sessionStorage.setItem('isRestaurantLoggedIn', true);
       window.alert(data.message);
       console.log(data.message);
-      navigate("/account");
+      navigate("/account-restaurant");
     }
   };
 
@@ -94,7 +111,7 @@ export default function SignIn_Restaurant() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Restaurant SignIn
             </Typography>
             <Box
               component="form"

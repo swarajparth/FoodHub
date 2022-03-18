@@ -22,6 +22,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Navbar from "../layout/Navbar";
+import {UserContext} from "../../App"
 
 function Copyright(props) {
   return (
@@ -44,7 +45,21 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Register_Restaurant() {
+  
+  const {state2, dispatch2} = React.useContext(UserContext);
+  const {state, dispatch} = React.useContext(UserContext);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if(state2){
+      navigate("/account-restaurant", {replace: true});
+    }
+    else if(state){
+      navigate("/account", {replace: true});
+    }
+  }, [state, state2])
+
+
   const [values, setValues] = React.useState({
     name: "",
     email: "",

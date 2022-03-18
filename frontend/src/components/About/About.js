@@ -46,7 +46,7 @@ function About() {
         <Navbar/>
         <section id="dashboard">
           <div className="row">
-            <h1 id="dashboard-caption">We belive good food offer great smile</h1>
+            <h1 id="dashboard-caption">We believe good food offer great smile</h1>
           </div>
           <div id="Order-now">
             <button className="btn btn-outline-light" type="button">Order Now!</button>

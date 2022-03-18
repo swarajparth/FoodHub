@@ -47,13 +47,17 @@ const theme = createTheme();
 export default function Register() {
 
   const {state, dispatch} = React.useContext(UserContext);
+  const {state2, dispatch2} = React.useContext(UserContext);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if(state){
       navigate("/account", {replace: true});
     }
-  }, [state])
+    else if(state2){
+      navigate("/account-restaurant", {replace: true});
+    }
+  }, [state, state2])
 
   
   const [values, setValues] = React.useState({
