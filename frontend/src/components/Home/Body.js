@@ -1,3 +1,5 @@
+import Button from "@mui/material/Button";
+import { NavLink, useNavigate} from "react-router-dom";
 import './app.css'
 
 
@@ -7,14 +9,16 @@ function Body() {
         <div>
   
         <section id="dashboard">
-        <div className="row">
-          <h1 id="dashboard-caption">We believe good food offer great smile</h1>
+        <div className="row" style={{justifyContent: 'center'}}>
+          <h1 id="dashboard-caption">We believe good food offers great smile</h1>
         </div>
-        <div id="Order-now">
+        <div id="Order-now" style={{justifyContent: 'center'}}>
+          <NavLink className="nav-link" to="/restaurants" variant="body2">
           <button className="btn btn-outline-light" type="button">Order Now!</button>
+          </NavLink>
         </div>
       </section>
-      <section id="about-us">
+      {/* <section id="about-us">
         <div className="container">
           <div className="row ">
             <div id="chef-img justify-content-center" className="col-6">
@@ -72,7 +76,7 @@ function Body() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       </div>
 
     );

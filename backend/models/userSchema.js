@@ -7,6 +7,10 @@ const userSchema=new mongoose.Schema  ({
         type : String,
         required : true
     },
+    address: {
+        type: String,
+        required: true
+    },
     mobile:{
         type: Number,
         required: true
@@ -22,22 +26,22 @@ const userSchema=new mongoose.Schema  ({
     confirm_password : {
         type : String,
         required : true
-    },
-    tokens:[
-        {
-            token:{
-                type: String,
-                required: true
-            }
-        }
-    ]
+    }
+    // tokens:[
+    //     {
+    //         token:{
+    //             type: String,
+    //             required: true
+    //         }
+    //     }
+    // ]
 })
 
 //generating jwt token
 userSchema.methods.generateAuthToken = async function(){
     try{
         let token = jwt.sign({_id:this._id}, process.env.SECRET_KEY);
-        this.tokens = this.tokens.concat({ token: token});
+        // this.tokens = this.tokens.concat({ token: token});
         await this.save();
         return token;
     }catch(err){

@@ -14,6 +14,8 @@ dotenv.config({path: './config.env'});
 require('./db/connection');
 const User = require('./models/userSchema');
 const Restaurant = require('./models/restaurantSchema');
+const Menu = require('./models/menuSchema');
+const Order = require('./models/orderSchema');
 
 //linking our router files to make routing easy
 app.use(express.json());

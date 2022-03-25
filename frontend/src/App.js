@@ -16,19 +16,25 @@ import ErrorPage from './components/ErrorPage/ErrorPage';
 import SignOut_Restaurant from './components/SignOut_Restaurant/SignOut_Restaurant';
 import Account_Restaurant from './components/MyAccount/Account_Restaurant';
 import Orders from './components/Orders/Orders';
+import All_Restaurants from './components/All_Restaurants/All_Restaurants';
+import RestaurantProfile from './components/MyAccount/RestaurantProfile'
+import Checkout from './components/Checkout/Checkout';
+
 
 //contextAPI
 export const UserContext = createContext();
 
-
 const App = () => {
+  
   const [state, dispatch] = useState(false);
   const [state2, dispatch2] = useState(false);
+  const [refresh, setRefresh] = useState(true);
 
   const providerValue = useMemo(() => ({
     state, dispatch,
     state2, dispatch2,
-  }), [state, state2]);
+    refresh, setRefresh
+  }), [state, state2, refresh]);
 
   useEffect(() => {
     if (sessionStorage.getItem('isLoggedIn')) {
@@ -37,6 +43,7 @@ const App = () => {
     else if(sessionStorage.getItem('isRestaurantLoggedIn')){
       dispatch2(true);
     }
+    
   }, []);
 
   return (
@@ -48,7 +55,7 @@ const App = () => {
         <Route path='/account' element={<MyAccount/>} />
         <Route path='/account-restaurant' element={<Account_Restaurant/>} />
         <Route path='/orders' element={<Orders/>} />
-        <Route path='/menu' element={<Menu/>} />
+        <Route path='/menu/:id' element={<Menu/>} />
         <Route path='/cart' element={<Cart/>} />
         <Route path='/register' element={<Register/>} />
         <Route path='/signin' element={<SignIn/>} />
@@ -57,6 +64,9 @@ const App = () => {
         <Route path='/about' element={<About/>} />
         <Route path='/register-restaurant' element={<Register_Restaurant/>} />
         <Route path='/signin-restaurant' element={<SignIn_Restaurant/>} />
+        <Route path='/restaurants' element={<All_Restaurants/>} />
+        <Route path='/restaurantprofile/:id' element={<RestaurantProfile/>} />
+        <Route path='/checkout' element={<Checkout/>} />
         <Route path='*' element={<ErrorPage/>} />
       </Routes>
       </Router>

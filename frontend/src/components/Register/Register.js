@@ -22,7 +22,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Navbar from "../layout/Navbar";
-import {UserContext} from "../../App"
+import {UserContext} from "../../App";
 
 function Copyright(props) {
   return (
@@ -51,17 +51,15 @@ export default function Register() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if(state){
-      navigate("/account", {replace: true});
-    }
-    else if(state2){
-      navigate("/account-restaurant", {replace: true});
+    if(state || state2){
+      navigate("/", {replace: true});
     }
   }, [state, state2])
 
   
   const [values, setValues] = React.useState({
     name: "",
+    address: "",
     email: "",
     mobile: "",
     password: "",
@@ -95,7 +93,7 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { name, email, mobile, password, confirm_password } = values;
+    const { name, email, address, mobile, password, confirm_password } = values;
 
     const res = await fetch("/register", {
       method: "POST",
@@ -105,6 +103,7 @@ export default function Register() {
       body: JSON.stringify({
         name,
         email,
+        address,
         mobile,
         password,
         confirm_password,
@@ -166,6 +165,20 @@ export default function Register() {
                     label="Name"
                   />
                 </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="off"
+                    name="address"
+                    value={values.address}
+                    onChange={handleChangeValues("address")}
+                    required
+                    fullWidth
+                    id="address"
+                    label="Address"
+                  />
+                </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     autoComplete="off"
@@ -175,13 +188,15 @@ export default function Register() {
                     required
                     fullWidth
                     id="mobile"
-                    label="Contact"
+                    label="Contact Number"
                   />
                 </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
+                    type="email"
                     id="email"
                     label="Email Address"
                     name="email"
@@ -253,7 +268,7 @@ export default function Register() {
                   </FormControl>
                 </Grid>
               </Grid>
-
+              
               <Button
                 type="submit"
                 fullWidth

@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import Badge from '@mui/material/Badge';
 import { UserContext } from "../../App";
 import {
   Nav,
@@ -13,12 +14,35 @@ const Navbar = () => {
 
   const {state, dispatch } = useContext(UserContext);
   const {state2, dispatch2 } = useContext(UserContext);
+  const {refresh, setRefresh} = useContext(UserContext);
+
+  const cartItems = ()=>{
+    if(!(sessionStorage.getItem('cartDishes'))){
+      return 0;
+    }
+    else{
+      const x = JSON.parse(sessionStorage.getItem('cartDishes'));
+      return x.length;
+    }
+    // const x = (!(sessionStorage.getItem('cartDishes')))
+    //   ? JSON.parse(sessionStorage.setItem('cartDishes', JSON.stringify([])))
+    //   : JSON.parse(sessionStorage.getItem('cartDishes'));
+    //   console.log(x);
+    // return x.length;
+  }
 
   const RenderMenu = () =>{
+
+    useEffect(() => {
+      if(state){
+          cartItems();
+      }  
+    }, [refresh])
+
     if(state){
       return(
         <>
-          <Nav>
+          <Nav >
         <NavLink to="/">
           <b>FoodHub</b>
         </NavLink>
@@ -32,7 +56,9 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink id="hero-cart" to="/cart" >
-            <i className="bi bi-cart" style={{ fontSize: "2rem" }} />
+            <Badge color="secondary" badgeContent={cartItems()}>
+              <i className="bi bi-cart" style={{ fontSize: "2rem" }} />
+            </Badge>
           </NavLink>
         
           <NavBtn>
@@ -45,7 +71,7 @@ const Navbar = () => {
     } else if(state2){
       return(
         <>
-          <Nav>
+          <Nav >
         <NavLink to="/">
           <b>FoodHub</b>
         </NavLink>
@@ -70,11 +96,12 @@ const Navbar = () => {
       )
     } else{
       return (
-        <Nav>
+        <Nav >
         <NavLink to="/">
           <b>FoodHub</b>
         </NavLink>
         <Bars />
+
         <NavMenu>
           <NavLink to="/about">
             About

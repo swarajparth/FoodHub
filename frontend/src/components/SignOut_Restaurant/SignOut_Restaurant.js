@@ -6,6 +6,7 @@ import Navbar from '../layout/Navbar';
 const SignOut = () => {
 //using promises
 
+    const {state, dispatch} = React.useContext(UserContext);
     const {state2, dispatch2} = React.useContext(UserContext);
     const navigate = useNavigate();
 

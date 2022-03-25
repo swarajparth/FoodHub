@@ -41,11 +41,8 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (state) {
-      navigate("/account", {replace: true});
-    }
-    else if (state2) {
-      navigate("/account-restaurant", {replace: true});
+    if (state ||state2) {
+      navigate("/", {replace: true});
     }
   }, [state, state2])
 
@@ -89,7 +86,7 @@ export default function SignIn() {
       sessionStorage.setItem('isLoggedIn', true);
       window.alert(data.message);
       console.log(data.message);
-      navigate("/account");
+      navigate("/");
     }
   };
 

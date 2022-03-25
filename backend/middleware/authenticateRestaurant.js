@@ -3,7 +3,7 @@ const Restaurant = require("../models/restaurantSchema");
 
 const authenticateRestaurant = async (req, res, next) => {
     try{
-        const token = req.cookies.jwtoken;
+        const token = req.cookies.jwtoken2;
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 
         const rootRestaurant = await Restaurant.findOne({_id: verifyToken._id});

@@ -20,6 +20,7 @@ const SignOut = () => {
         }).then((res) => {
             dispatch(false);
             sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('cartDishes');
             navigate('/signin', {replace: true});
 
             if(!( res.status === 200)){

@@ -51,17 +51,15 @@ export default function Register_Restaurant() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if(state2){
-      navigate("/account-restaurant", {replace: true});
-    }
-    else if(state){
-      navigate("/account", {replace: true});
+    if(state || state2){
+      navigate("/", {replace: true});
     }
   }, [state, state2])
 
 
   const [values, setValues] = React.useState({
     name: "",
+    address: "",
     email: "",
     mobile: "",
     password: "",
@@ -95,7 +93,7 @@ export default function Register_Restaurant() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { name, email, mobile, password, confirm_password } = values;
+    const { name, email, address, mobile, password, confirm_password } = values;
 
     const res = await fetch("/register-restaurant", {
       method: "POST",
@@ -105,6 +103,7 @@ export default function Register_Restaurant() {
       body: JSON.stringify({
         name,
         email,
+        address,
         mobile,
         password,
         confirm_password,
@@ -141,6 +140,7 @@ export default function Register_Restaurant() {
               alignItems: "center",
             }}
           >
+
             <Avatar sx={{ m: 1, bgcolor: "error.main" }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -166,6 +166,20 @@ export default function Register_Restaurant() {
                     label="Name"
                   />
                 </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="off"
+                    name="address"
+                    value={values.address}
+                    onChange={handleChangeValues("address")}
+                    required
+                    fullWidth
+                    id="address"
+                    label="Address"
+                  />
+                </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     autoComplete="off"
@@ -175,7 +189,7 @@ export default function Register_Restaurant() {
                     required
                     fullWidth
                     id="mobile"
-                    label="Contact"
+                    label="Contact Number"
                   />
                 </Grid>
 

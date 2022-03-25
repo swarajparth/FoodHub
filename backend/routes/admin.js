@@ -1,26 +1,67 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 
 require('../db/connection');
 const User = require("../models/userSchema");
 const Restaurant = require("../models/restaurantSchema");
+const Order = require("../models/orderSchema");
+const Menu = require("../models/menuSchema");
 const authenticate = require('../middleware/authenticate');
 const authenticateRestaurant = require('../middleware/authenticateRestaurant');
 
+router.post("/api/placeOrder", async (req, res) =>{
+    const {userId, restaurantId, total_amount, delivery_address, payment_mode, orderItems} = req.body;
 
-//Middleware
-const middleware = (req, res, next)=>{
-    console.log(`Hello middleware`);
-    next();
-}
+    try{
+        const order = new Order({userId, restaurantId, total_amount, delivery_address, payment_mode, orderItems});
+        await order.save();
 
-router.get("/", (req, res)=>{
-    res.send("My app");
+        res.send(order);
+        console.log("Order placed successfully");
+    }
+    catch(err){
+        res.status(401).send("Could not place order");
+        console.log(err);
+    }
 });
 
+
+router.post("/restaurantDetails", async (req, res)=>{
+    try{
+        const rootRestaurant = await Restaurant.findOne({_id: req.body.id});
+        res.send(rootRestaurant);
+        console.log(`Restaurant details fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Technical error");
+        console.log(err);
+    }
+});
+
+
+router.get("/restaurants", async (req, res)=>{
+    try{
+        const restaurant = await Restaurant.find();
+        if(!restaurant){
+            throw new Error('No restaurant has been registered');
+        }
+        
+        res.send(restaurant);
+        console.log(`Restaurant list fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+router.get("/get-user-data", authenticate, (req, res)=>{
+    console.log(`Authenticated`);
+    res.send(req.rootUser);
+});
 
 router.get("/signout", (req, res)=>{
     res.clearCookie('jwtoken', {path:'/'});
@@ -29,47 +70,143 @@ router.get("/signout", (req, res)=>{
 })
 
 router.get("/signout-restaurant", (req, res)=>{
-    res.clearCookie('jwtoken', {path:'/'});
+    res.clearCookie('jwtoken2', {path:'/'});
     console.log(`Signed out successfully.`);
     res.status(200).send("Restaurant signed out successfully.");
 })
 
 
-// router.get("/getdata", authenticate, (req, res)=>{
-//     console.log(`Authenticated`);
-//     res.send(req.rootUser);
-// })
+router.get("/menu/:id", async (req, res)=>{
+    try{
+        const rootRestaurant = await Restaurant.findOne({_id: req.params.id});
+        const menu = await Menu.find({restaurant_email: rootRestaurant.email, status: "Available"});
+        if(!menu){
+            throw new Error('No dishes to show');
+        }
+        
+        res.send(menu);
+        console.log(`Menu list fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+
+router.get("/restaurantprofile/:id", async (req, res)=>{
+    try{
+        const rootRestaurant = await Restaurant.findOne({_id: req.params.id});
+        const menu = await Menu.find({restaurant_email: rootRestaurant.email});
+        const order = await Order.find({restaurant_email: rootRestaurant.email});
+        
+        res.send({rootRestaurant, menu, order});
+    }
+    catch(err){
+        res.status(404).send("Restaurant not found");
+        console.log(err);
+    }
+})
+
 
 router.get("/account", authenticate, (req, res)=>{
     console.log(`Authenticated`);
     res.send(req.rootUser);
 })
 
-router.get("/orders", authenticateRestaurant, (req, res)=>{
+router.get("/account-restaurant", authenticateRestaurant, async (req, res)=>{
+    try{
+        const data = req.rootRestaurant;
+        const menu = await Menu.find({restaurant_email: data.email});
+        
+        res.send({data, menu});
+        console.log(`Authenticated`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+})
+
+
+
+router.post("/update-menu", async(req, res)=>{
+    const{name, price, status, restaurant_email, quantity_served } = req.body;
+
+    if( !name || !price || !status ){
+        return res.status(422).json({error: "Please fill the entries properly"});
+    }
+
+    try{
+        const dishExist = await Menu.findOne({name, restaurant_email});
+        
+        if(dishExist){
+            await Menu.updateOne({_id: dishExist._id}, {
+                $set: {name, price, status}
+            });
+
+            return res.status(201).json({message: "Dish updated"});
+        }
+
+        const dish = new Menu({name, price, status, restaurant_email, quantity_served});
+
+        await dish.save();
+
+        res.status(201).json({message: "Dish added to menu"});
+
+        } catch(err){
+            console.log(err);
+        }    
+});
+
+
+
+
+router.post("/update-account-restaurant", async(req, res)=>{
+    const{name, mobile, address, email, _id } = req.body;
+
+    if( !name || !mobile || !email || !address ){
+        return res.status(422).json({error: "Please fill the entries properly"});
+    }
+
+    try{
+        const restaurant = await Restaurant.updateOne({_id}, {
+            $set: {name, mobile, email, address}
+        });
+
+        res.status(201).json({message: "Restaurant profile updated successfully"});
+
+        } catch(err){
+            console.log(err);
+        }    
+});
+
+
+router.post("/update-account", async(req, res)=>{
+    const{name, mobile, address, email, _id } = req.body;
+
+    if( !name || !mobile || !email || !address ){
+        return res.status(422).json({error: "Please fill the entries properly"});
+    }
+
+    try{
+        const user = await User.updateOne({_id}, {
+            $set: {name, mobile, email, address}
+        });
+
+        res.status(201).json({message: "User profile updated successfully"});
+
+        } catch(err){
+            console.log(err);
+        }    
+});
+
+
+
+router.post("/orders", authenticateRestaurant, (req, res)=>{
     console.log(`Authenticated`);
     res.send(req.rootRestaurant);
 })
-
-router.get("/account-restaurant", authenticateRestaurant, (req, res)=>{
-    console.log(`Authenticated`);
-    res.send(req.rootRestaurant);
-})
-
-router.get("/menu", (req, res)=>{
-    res.send("My app");
-});
-
-router.get("/cart", authenticate, (req, res)=>{
-    console.log(`Authenticated`);
-    res.send(req.rootUser);
-});
-
-
-router.get("/about", middleware, (req, res)=>{
-    console.log(`Hello my about`);
-    res.send("My app about");
-});
-
 
 router.post("/signin", async(req, res)=>{
     const{email, password } = req.body;
@@ -109,9 +246,9 @@ router.post("/signin", async(req, res)=>{
 
 //register using async await
 router.post("/register", async(req, res)=>{
-    const{name, email, mobile, password, confirm_password } = req.body;
+    const{name, email, address, mobile, password, confirm_password } = req.body;
 
-    if( !name || !mobile || !email || !password || !confirm_password ){
+    if( !name || !mobile || !address || !email || !password || !confirm_password ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
 
@@ -125,7 +262,7 @@ router.post("/register", async(req, res)=>{
                 return res.status(422).json({error: "User already exists"});
             }
 
-            const user = new User({name, email, mobile, password, confirm_password});
+            const user = new User({name, email, address, mobile, password, confirm_password});
 
             //hashing "password" and "confirm_password" before saving them to the database
             await user.save();
@@ -155,7 +292,7 @@ router.post("/signin-restaurant", async(req, res)=>{
         const isMatch = bcrypt.compare(password, restaurantExist.password);
         const token = await restaurantExist.generateAuthToken();
 
-        res.cookie("jwtoken", token, {
+        res.cookie("jwtoken2", token, {
             expires:new Date(Date.now() + 450000000),
             httpOnly:true
         });
@@ -174,9 +311,9 @@ router.post("/signin-restaurant", async(req, res)=>{
 
 
 router.post("/register-restaurant", async(req, res)=>{
-    const{name, mobile, email, password, confirm_password } = req.body;
+    const{name, mobile, address, email, password, confirm_password } = req.body;
 
-    if( !name || !mobile || !email || !password || !confirm_password ){
+    if( !name || !mobile || !email || !address || !password || !confirm_password ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
 
@@ -190,7 +327,7 @@ router.post("/register-restaurant", async(req, res)=>{
                 return res.status(422).json({error: "Restaurant already exists"});
             }
 
-            const restaurant = new Restaurant({name, mobile, email, password, confirm_password});
+            const restaurant = new Restaurant({name, mobile, address, email, password, confirm_password});
             
             //hashing password and confirm_password before saving them to the database
             await restaurant.save();

@@ -1,29 +1,26 @@
 import React, {useEffect, useState} from 'react'
-import { useParams } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
-import Menu_Card from './Menu_Card';
+import Restaurant_Card from './Restaurant_Card';
 
-const Menu = () => {
 
-  const { id } = useParams();
+const All_Restaurants = () => {
 
-  const [menu, setMenu] = useState({});
+  const [restaurants, setRestaurants] = useState([{}]);
 
-  const callMenuPage = async () =>{
+  const callAll_RestaurantsPage = async () =>{
     try{
-      const res = await fetch(`/menu/${id}`, {
+      const res = await fetch('/restaurants', {
         method: "GET",
         headers:{
           "Content-Type": "application/json"
         }
       });
       const data = await res.json();
-      
-      if(!(res.status === 200)){
+      if((res.status === 401)){
         throw new Error(res.err);
       }
       else{
-        setMenu(data);
+        setRestaurants(data);
       }
     }
     catch(err){
@@ -32,7 +29,7 @@ const Menu = () => {
   };
   
   useEffect(() => {
-    callMenuPage();
+    callAll_RestaurantsPage();
   }, []) //array dependency - means executes only once as the page gets loaded
 
 
@@ -40,22 +37,21 @@ const Menu = () => {
     <>
     <Navbar/>
 
-    
-    {menu.length === 0 &&
-        <h2 style={{textAlign: 'center', marginTop: '5%'}}>Restaurant is currently unavailable</h2>
+    {restaurants.length === 0 &&
+        <h2 style={{textAlign: 'center', marginTop: '5%'}}>No restaurant to show</h2>
     }
     
-    {menu.length > 0 &&
+    {restaurants.length > 0 &&
         <div style={{display: 'flex', flexWrap: 'wrap', paddingInline: '3%'}}>
-            {menu.map(menu =>(
-                <Menu_Card menu={menu} id={id} />
+            {restaurants.map(restaurants =>(
+                <Restaurant_Card restaurants={restaurants}/>
             ))}
         </div>
     }
     
-
+    
     </>
   )
 }
 
-export default Menu
+export default All_Restaurants
