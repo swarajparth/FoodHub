@@ -9,7 +9,7 @@ const RestaurantProfile = () => {
 
   const [restaurant, setRestaurant] = useState({});
   const [menu, setMenu] = useState({});
-  const [order, setOrder] = useState({});
+  // const [order, setOrder] = useState({});
 
   const callRestaurantProfilePage = async () => {
     try {
@@ -26,7 +26,7 @@ const RestaurantProfile = () => {
       }
       setRestaurant(data.rootRestaurant);
       setMenu(data.menu);
-      setOrder(data.order);
+      // setOrder(data.order);
 
     }
     catch (err) {

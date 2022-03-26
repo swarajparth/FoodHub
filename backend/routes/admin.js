@@ -94,6 +94,45 @@ router.get("/menu/:id", async (req, res)=>{
 });
 
 
+
+router.post("/api/user-current-orders", async (req, res)=>{
+    const {userId} = req.body;
+    try{
+        const userCurrentOrders = await Order.find({userId , orderStatus: "ordered"});
+        
+        if(!userCurrentOrders){
+            throw new Error('Current orders not available');
+        }
+        
+        res.send(userCurrentOrders);
+        console.log(`Current orders fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+
+router.post("/api/user-previous-orders", async (req, res)=>{
+    const {userId} = req.body;
+    try{
+        const userPreviousOrders = await Order.find({userId , orderStatus: "accepted"});
+        
+        if(!userPreviousOrders){
+            throw new Error('Previous orders not available');
+        }
+        
+        res.send(userPreviousOrders);
+        console.log(`Previous orders fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+
 router.get("/restaurantprofile/:id", async (req, res)=>{
     try{
         const rootRestaurant = await Restaurant.findOne({_id: req.params.id});
