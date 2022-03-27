@@ -199,7 +199,7 @@ export default function Checkout() {
             <Typography component="h1" variant="h4" align="center">
               Checkout
             </Typography>
-            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 3 }}>
               {steps.map((label) => (
                 <Step
                   key={label}
@@ -230,13 +230,14 @@ export default function Checkout() {
             <React.Fragment>
               {activeStep === steps.length ? (
                 <React.Fragment>
-                  <Typography variant="h5" gutterBottom>
+                  <img src={require("../../assets/img/thank-note.jpg")} className="card-img-top" alt="..." />
+                  {/* <Typography variant="h5" gutterBottom style={{textAlign:'center'}}>
                     Thank you for your order.
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Your order ID is {placedOrderId}. Current orders can be seen
-                    on your account page. We have notified the restaurant about
-                    your order, they will soon be contacting you.
+                  </Typography> */}
+                  <Typography variant="subtitle1" style={{textAlign:'center', marginTop:'1rem'}}>
+                    Your order ID is {placedOrderId}.<br/>
+                    Current orders can be seen on your account page.<br/>
+                    We have notified the restaurant about your order, they will be contacting you soon.
                   </Typography>
                 </React.Fragment>
               ) : (

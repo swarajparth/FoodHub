@@ -116,7 +116,7 @@ const Menu_Card = ({menu, id}) => {
     <div className="col service-card" style={{flexGrow: "0"}}>
         <div id="canteen-card" className="card " style={{width: '20rem',
             boxShadow: "rgba(28, 28, 28, 0.2) 0px 0.4rem 1.8rem"}}>
-            <img src={require("../../assets/dish.jpg")} className="card-img-top" alt="..." />
+            <img src={require("../../assets/img/best-food.jpg")} className="card-img-top" alt="..." />
             <div className="card-body" style={{marginLeft:'2%'}}>
                 <div className="row" >
                     <div className="col-md-6" style={{paddingRight: '1%'}}>
