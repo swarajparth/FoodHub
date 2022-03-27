@@ -56,7 +56,7 @@ const orderSchema=new mongoose.Schema  ({
     },
     orderStatus:{
         type: String,
-        default: "ordered"
+        default: "placed"
     },
     delivery_address:{
         address1: {

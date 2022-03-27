@@ -161,7 +161,7 @@ const Account_Restaurant = () => {
                   <div className="button-container">
                     <div className="row">
                     <div className="col-lg-6 ml-auto" style={{paddingTop:'2%'}}>
-                        <h5>Today's Special</h5>
+                        <h5>Popular Dish</h5>
                       </div>
                       <div className="col-lg-6 mr-auto" style={{paddingTop:'2%'}}>
                         <h5>Pizza</h5>

@@ -98,7 +98,7 @@ router.get("/menu/:id", async (req, res)=>{
 router.post("/api/user-current-orders", async (req, res)=>{
     const {userId} = req.body;
     try{
-        const userCurrentOrders = await Order.find({userId , orderStatus: "ordered"});
+        const userCurrentOrders = await Order.find({userId , orderStatus: "placed"}).populate('restaurantId').sort({updatedAt:-1});
         
         if(!userCurrentOrders){
             throw new Error('Current orders not available');
@@ -117,7 +117,7 @@ router.post("/api/user-current-orders", async (req, res)=>{
 router.post("/api/user-previous-orders", async (req, res)=>{
     const {userId} = req.body;
     try{
-        const userPreviousOrders = await Order.find({userId , orderStatus: "accepted"});
+        const userPreviousOrders = await Order.find({userId , orderStatus: "closed"}).populate('restaurantId').sort({updatedAt:-1});
         
         if(!userPreviousOrders){
             throw new Error('Previous orders not available');
@@ -125,6 +125,44 @@ router.post("/api/user-previous-orders", async (req, res)=>{
         
         res.send(userPreviousOrders);
         console.log(`Previous orders fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+
+router.post("/api/restaurant-current-orders", async (req, res)=>{
+    const {restaurantId} = req.body;
+    try{
+        const restaurantNewOrders = await Order.find({restaurantId , orderStatus: "placed"}).populate('userId').sort({updatedAt:-1});
+        
+        if(!restaurantNewOrders){
+            throw new Error('New orders not available');
+        }
+        
+        res.send(restaurantNewOrders);
+        console.log(`New orders fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+
+router.post("/api/restaurant-previous-orders", async (req, res)=>{
+    const {restaurantId} = req.body;
+    try{
+        const restaurantAcceptedOrders = await Order.find({restaurantId , orderStatus: "closed"}).populate('userId').sort({updatedAt:-1});
+        
+        if(!restaurantAcceptedOrders){
+            throw new Error('Accepted orders not available');
+        }
+        
+        res.send(restaurantAcceptedOrders);
+        console.log(`Accepted orders fetched successfully.`);
     }
     catch(err){
         res.status(401).send("Unauthorized: Unknown error");
@@ -234,6 +272,22 @@ router.post("/update-account", async(req, res)=>{
         });
 
         res.status(201).json({message: "User profile updated successfully"});
+
+        } catch(err){
+            console.log(err);
+        }    
+});
+router.post("/api/order-received", async(req, res)=>{
+    const {orderId} = req.body;
+    try{
+        const user = await Order.updateOne({_id: orderId}, {
+            $set: {orderStatus: "closed"}
+        });
+
+        if(!user){
+            res.status(400).json({error: "Order could not be closed"})
+        }
+        res.status(201).json({message: "Order closed successfully"});
 
         } catch(err){
             console.log(err);

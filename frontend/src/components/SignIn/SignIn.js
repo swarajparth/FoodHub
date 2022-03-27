@@ -84,6 +84,7 @@ export default function SignIn() {
     } else {
       dispatch(true);
       sessionStorage.setItem('isLoggedIn', true);
+      sessionStorage.setItem("userId", data._id);
       window.alert(data.message);
       console.log(data.message);
       navigate("/");

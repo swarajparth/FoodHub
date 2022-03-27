@@ -1,43 +1,42 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../App'
-import Navbar from '../layout/Navbar';
-import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
-import Review from './Review';
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { NavLink, useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
+import Navbar from "../layout/Navbar";
+import AddressForm from "./AddressForm";
+import PaymentForm from "./PaymentForm";
+import Review from "./Review";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <NavLink style={{ color: "inherit" }} to="/">
         FoodHub
       </NavLink>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
-const steps = ['Delivery address', 'Payment details', 'Review your order'];
+const steps = ["Delivery address", "Payment details", "Review your order"];
 
 const theme = createTheme();
 
 export default function Checkout() {
-  
   const navigate = useNavigate();
-  const {refresh, setRefresh} = React.useContext(UserContext);
+  const { refresh, setRefresh } = React.useContext(UserContext);
 
   const [placedOrderId, setPlacedOrderId] = React.useState();
   const [userData, setUserData] = React.useState({});
@@ -50,37 +49,42 @@ export default function Checkout() {
     address1: "",
     address2: "",
     city: "",
-    zip: ""
+    zip: "",
   });
-
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm values={values} setValues={setValues}/>;
+        return <AddressForm values={values} setValues={setValues} />;
       case 1:
-        return <PaymentForm payment_mode={payment_mode} setPaymentMode={setPaymentMode}/>;
+        return (
+          <PaymentForm
+            payment_mode={payment_mode}
+            setPaymentMode={setPaymentMode}
+          />
+        );
       case 2:
-        return <Review 
-                orderItems={orderItems}
-                setOrderItems={setOrderItems}
-                values={values}
-                payment_mode={payment_mode}
-                userData={userData}
-              />;
+        return (
+          <Review
+            orderItems={orderItems}
+            setOrderItems={setOrderItems}
+            values={values}
+            payment_mode={payment_mode}
+            userData={userData}
+          />
+        );
       default:
-        throw new Error('Unknown step');
+        throw new Error("Unknown step");
     }
   }
 
   const handleNext = () => {
-    if(activeStep){
+    if (activeStep) {
       setActiveStep(activeStep + 1);
-      if(activeStep == 2){
+      if (activeStep == 2) {
         placeOrder();
       }
-    }
-    else if(values.address1 && values.city && values.zip){
+    } else if (values.address1 && values.city && values.zip) {
       setActiveStep(activeStep + 1);
     }
   };
@@ -89,17 +93,20 @@ export default function Checkout() {
     setActiveStep(activeStep - 1);
   };
 
-  const placeOrder = async () =>{
+  const placeOrder = async () => {
     const userId = userData._id;
     const restaurantId = orderItems[0].restaurant_id;
-    const total_amount = orderItems.reduce((sum, orderItem) => sum + (orderItem.amount), 0);
+    const total_amount = orderItems.reduce(
+      (sum, orderItem) => sum + orderItem.amount,
+      0
+    );
     const delivery_address = values;
 
-    try{
-      const res = await fetch('/api/placeOrder', {
+    try {
+      const res = await fetch("/api/placeOrder", {
         method: "POST",
-        headers:{
-          "Content-Type": "application/json"
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId,
@@ -107,167 +114,174 @@ export default function Checkout() {
           total_amount,
           delivery_address,
           payment_mode,
-          orderItems
-        })
+          orderItems,
+        }),
       });
-      
+
       const placedOrder = await res.json();
-      
-      if(!(res.status === 200)){
+
+      if (!(res.status === 200)) {
         throw new Error(res.err);
         window.alert(res.err);
-      }
-      else{
+      } else {
         setPlacedOrderId(placedOrder._id);
-        sessionStorage.removeItem('cartDishes');
+        sessionStorage.removeItem("cartDishes");
         setRefresh(!refresh);
       }
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
-      navigate('/signin');
+      navigate("/signin");
     }
   };
 
-  const getUserData = async () =>{
-    try{
-      const res = await fetch('/get-user-data', {
+  const getUserData = async () => {
+    try {
+      const res = await fetch("/get-user-data", {
         method: "GET",
-        headers:{
+        headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        credentials: "include"
+        credentials: "include",
       });
       const data = await res.json();
-      
-      if(!(res.status === 200)){
+
+      if (!(res.status === 200)) {
         throw new Error(res.err);
-      }
-      else{
+      } else {
         setUserData(data);
       }
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
-      navigate('/signin');
+      navigate("/signin");
     }
   };
-  
-  const callCheckoutPage = async () =>{
-    
-    if (!(sessionStorage.getItem('isLoggedIn'))) {
-        navigate('/signin');
+
+  const callCheckoutPage = async () => {
+    if (!sessionStorage.getItem("isLoggedIn")) {
+      navigate("/signin");
     }
 
-    const items = sessionStorage.getItem('cartDishes');
-    
+    const items = sessionStorage.getItem("cartDishes");
+
     if (items) {
-        const itemsJson = JSON.parse(items);
+      const itemsJson = JSON.parse(items);
 
-        if (itemsJson.length > 0){
-          getUserData();
-        }
-        else navigate('/');
-    }
-    else navigate('/');
+      if (itemsJson.length > 0) {
+        getUserData();
+      } else navigate("/");
+    } else navigate("/");
   };
-  
+
   React.useEffect(() => {
     callCheckoutPage();
-  }, [])
-  
+  }, []);
 
   return (
-      <>
-      <Navbar/>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-      </AppBar>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
-            Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label} sx={{
-                '& .MuiStepLabel-root .Mui-completed': {
-                  color: 'rgb(196, 8, 8)', // circle color (COMPLETED)
-                },
-                '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel':
-                  {
-                    color: 'grey.500', // Just text label (COMPLETED)
-                  },
-                '& .MuiStepLabel-root .Mui-active': {
-                  color: 'rgb(196, 8, 8)', // circle color (ACTIVE)
-                },
-                '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel':
-                  {
-                    color: 'common.white', // Just text label (ACTIVE)
-                  },
-                '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {
-                  fill: 'common.white', // circle's number (ACTIVE)
-                },
-              }}>
-                <StepLabel>
-                    {label}</StepLabel>
+    <>
+      <Navbar />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppBar
+          position="absolute"
+          color="default"
+          elevation={0}
+          sx={{
+            position: "relative",
+            borderBottom: (t) => `1px solid ${t.palette.divider}`,
+          }}
+        ></AppBar>
+        <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+          <Paper
+            variant="outlined"
+            sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+          >
+            <Typography component="h1" variant="h4" align="center">
+              Checkout
+            </Typography>
+            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+              {steps.map((label) => (
+                <Step
+                  key={label}
+                  sx={{
+                    "& .MuiStepLabel-root .Mui-completed": {
+                      color: "rgb(196, 8, 8)", // circle color (COMPLETED)
+                    },
+                    "& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel":
+                      {
+                        color: "grey.500", // Just text label (COMPLETED)
+                      },
+                    "& .MuiStepLabel-root .Mui-active": {
+                      color: "rgb(196, 8, 8)", // circle color (ACTIVE)
+                    },
+                    "& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel":
+                      {
+                        color: "common.white", // Just text label (ACTIVE)
+                      },
+                    "& .MuiStepLabel-root .Mui-active .MuiStepIcon-text": {
+                      fill: "common.white", // circle's number (ACTIVE)
+                    },
+                  }}
+                >
+                  <StepLabel>{label}</StepLabel>
                 </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order ID is {placedOrderId}. We have notified the restaurant regarding your order
-                  confirmation, they will soon be updating the details.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}<div  style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    <NavLink to="/cart">
+              ))}
+            </Stepper>
+            <React.Fragment>
+              {activeStep === steps.length ? (
+                <React.Fragment>
+                  <Typography variant="h5" gutterBottom>
+                    Thank you for your order.
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Your order ID is {placedOrderId}. Current orders can be seen
+                    on your account page. We have notified the restaurant about
+                    your order, they will soon be contacting you.
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  {getStepContent(activeStep)}
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <div
+                      style={{ display: "flex", justifyContent: "flex-start" }}
+                    >
+                      <NavLink to="/cart">
                         <Button sx={{ mt: 3, ml: 1, color: "error.main" }}>
-                        Cancel
+                          Cancel
                         </Button>
-                    </NavLink>
-                </div>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start ' }}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1, color: "error.main" }}>
-                      Back
-                    </Button>
-                  )}
+                      </NavLink>
+                    </div>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "flex-start " }}
+                    >
+                      {activeStep !== 0 && (
+                        <Button
+                          onClick={handleBack}
+                          sx={{ mt: 3, ml: 1, color: "error.main" }}
+                        >
+                          Back
+                        </Button>
+                      )}
 
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1, bgcolor: "error.main"}}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
-                </Box>
-                </div >
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        </Paper>
-        <Copyright />
-      </Container>
-    </ThemeProvider>
+                      <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        sx={{ mt: 3, ml: 1, bgcolor: "error.main" }}
+                      >
+                        {activeStep === steps.length - 1
+                          ? "Place order"
+                          : "Next"}
+                      </Button>
+                    </Box>
+                  </div>
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          </Paper>
+          <Copyright />
+        </Container>
+      </ThemeProvider>
     </>
   );
 }

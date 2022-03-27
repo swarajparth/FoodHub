@@ -21,6 +21,7 @@ const SignOut = () => {
         }).then((res) => {
             dispatch2(false);
             sessionStorage.removeItem('isRestaurantLoggedIn');
+            sessionStorage.removeItem('restaurantId')
             navigate('/signin-restaurant', {replace: true});
 
             if(!( res.status === 200)){

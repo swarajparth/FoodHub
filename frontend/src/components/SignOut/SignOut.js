@@ -21,6 +21,7 @@ const SignOut = () => {
             dispatch(false);
             sessionStorage.removeItem('isLoggedIn');
             sessionStorage.removeItem('cartDishes');
+            sessionStorage.removeItem('userId')
             navigate('/signin', {replace: true});
 
             if(!( res.status === 200)){

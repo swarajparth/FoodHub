@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const MyAccount = () => {
+  let count = 0;
+
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(true);
 
   const [values, setValues] = useState({
     name: "",
@@ -62,6 +72,7 @@ const MyAccount = () => {
         throw new Error(res.err);
       }
       setUserData(data);
+      sessionStorage.setItem("userId", data._id);
 
       setValues({
         name: data.name,
@@ -76,8 +87,31 @@ const MyAccount = () => {
     }
   };
 
+  const orderReceived = async (userCurrentOrder) => {
+    const orderId = userCurrentOrder._id;
+
+    try {
+      const res = await fetch("/api/order-received", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ orderId }),
+      });
+      const data = await res.json();
+
+      if (!(res.status === 201)) {
+        throw new Error(res.err);
+      }
+      setRefresh(!refresh);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   const getUserCurrentOrders = async () => {
-    const userId = userData._id;
+    const userId = sessionStorage.getItem("userId");
     try {
       const res = await fetch("/api/user-current-orders", {
         method: "POST",
@@ -98,7 +132,7 @@ const MyAccount = () => {
   };
 
   const getUserPreviousOrders = async () => {
-    const userId = userData._id;
+    const userId = sessionStorage.getItem("userId");
     try {
       const res = await fetch("/api/user-previous-orders", {
         method: "POST",
@@ -113,30 +147,23 @@ const MyAccount = () => {
         throw new Error(res.err);
       }
       setUserPreviousOrders(data);
-      console.log(userData, "hello");
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(async () => {
-    callAccountPage().then(() => {
-      getUserCurrentOrders().then(() => {
-        getUserPreviousOrders();
-      });
+  useEffect(() => {
+    callAccountPage().then(async () => {
+      getUserCurrentOrders();
+      getUserPreviousOrders();
+      setLoading(false);
     });
-    
-    console.log(userData, "hi2");
-
-
-
-    
-  }, []); //array dependency - means executes only once as the page gets loaded
-
+  }, [refresh]);
+  
   return (
     <>
       <Navbar />
-
+<p>{}</p>
       <div>
         <div className="wrapper " style={{ margin: "3%", paddingInline: "3%" }}>
           <div className="content">
@@ -173,25 +200,6 @@ const MyAccount = () => {
                         User
                       </p>
                     </div>
-                    <hr style={{ marginTop: "1%", marginBottom: "1%" }} />
-                    <div className="button-container">
-                      <div className="row">
-                        <div className="col-lg-6 ml-auto">
-                          <h5>
-                            12
-                            <br />
-                            <small>Orders</small>
-                          </h5>
-                        </div>
-                        <div className="col-lg-6 mr-auto">
-                          <h5>
-                            ₹246
-                            <br />
-                            <small>Spent</small>
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div
@@ -208,50 +216,60 @@ const MyAccount = () => {
                   </div>
                   <div className="card-body">
                     <ul className="list-unstyled team-members">
-                      <li>
-                        <div className="row">
-                          <div className="col-md-7 col-7">
-                            Pizza
-                            <br />
+                      {userCurrentOrders.length && !loading ? (
+                        <>
+                          {userCurrentOrders.map((userCurrentOrder) => {
+                            return (
+                              <>
+                                <h4 style={{textAlign:'center'}}>
+                                  {userCurrentOrder.restaurantId.name}
+                                </h4>
+                                <hr/>
+                                {userCurrentOrder.orderItems.map(
+                                  (orderItem, i) => {
+                                    return (
+                                      <li key={i}>
+                                        <div className="row">
+                                          <div className="col-md-7 col-7">
+                                            {orderItem.name}
+                                            <br />
+                                          </div>
+                                          <div className="col-md-3 col-3 text-right">
+                                            <h6>{orderItem.quantity}</h6>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    );
+                                  }
+                                )}
+                                <div style={{display:'flex', justifyContent:'center'}}>
+                                <Button
+                            type="submit"
+                            variant="contained"
+                            onClick={()=>orderReceived(userCurrentOrder)}
+                            sx={{ mt:1, bgcolor: "error.main" }}
+                          >
+                            Received
+                          </Button>
                           </div>
-                          <div className="col-md-3 col-3 text-right">
-                            <h6>₹150</h6>
+                                <hr/>
+                              </>
+                            );
+                          })}
+                        </>
+                      ) : (
+                        <li>
+                          <div className="row">
+                            <div className="col-md-7 col-7">
+                              -
+                              <br />
+                            </div>
+                            <div className="col-md-3 col-3 text-right">
+                              <h6>-</h6>
+                            </div>
                           </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="row">
-                          <div className="col-md-7 col-7">
-                            Pasta
-                            <br />
-                          </div>
-                          <div className="col-md-3 col-3 text-right">
-                            <h6>₹70</h6>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="row">
-                          <div className="col-md-7 col-7">
-                            Sandwich
-                            <br />
-                          </div>
-                          <div className="col-md-3 col-3 text-right">
-                            <h6>₹246</h6>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="row">
-                          <div className="col-ms-7 col-7">
-                            Taco
-                            <br />
-                          </div>
-                          <div className="col-md-3 col-3 text-right">
-                            <h6>₹100</h6>
-                          </div>
-                        </div>
-                      </li>
+                        </li>
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -354,6 +372,7 @@ const MyAccount = () => {
                       <table className="table">
                         <thead className=" text-primary">
                           <tr style={{ color: "#941919" }}>
+                            <th>Sr</th>
                             <th>Name</th>
                             <th>Restaurant</th>
                             <th>Quantity</th>
@@ -361,24 +380,39 @@ const MyAccount = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>Pizza</td>
-                            <td>Nescafe</td>
-                            <td>1</td>
-                            <td>12</td>
-                          </tr>
-                          <tr>
-                            <td>Biryani</td>
-                            <td>Nescafe</td>
-                            <td>2</td>
-                            <td>200</td>
-                          </tr>
-                          <tr>
-                            <td>Soup</td>
-                            <td>Nescafe</td>
-                            <td>3</td>
-                            <td>57</td>
-                          </tr>
+                          {userPreviousOrders.length && !loading ? (
+                            <>
+                              {userPreviousOrders.map(
+                                (userPreviousOrder) => {
+                                  return userPreviousOrder.orderItems.map(
+                                    (orderItem, i) => {
+                                      return (
+                                        <tr key={i}>
+                                          <td>{1+ count++}</td>
+                                          <td>{orderItem.name}</td>
+                                          <td>
+                                            {
+                                              userPreviousOrder.restaurantId
+                                                .name
+                                            }
+                                          </td>
+                                          <td>{orderItem.quantity}</td>
+                                          <td>{orderItem.amount}</td>
+                                        </tr>
+                                      );
+                                    }
+                                  );
+                                }
+                              )}
+                            </>
+                          ) : (
+                            <tr>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>
