@@ -29,72 +29,6 @@ router.post("/api/placeOrder", async (req, res) =>{
 });
 
 
-router.post("/restaurantDetails", async (req, res)=>{
-    try{
-        const rootRestaurant = await Restaurant.findOne({_id: req.body.id});
-        res.send(rootRestaurant);
-        console.log(`Restaurant details fetched successfully.`);
-    }
-    catch(err){
-        res.status(401).send("Technical error");
-        console.log(err);
-    }
-});
-
-
-router.get("/restaurants", async (req, res)=>{
-    try{
-        const restaurant = await Restaurant.find();
-        if(!restaurant){
-            throw new Error('No restaurant has been registered');
-        }
-        
-        res.send(restaurant);
-        console.log(`Restaurant list fetched successfully.`);
-    }
-    catch(err){
-        res.status(401).send("Unauthorized: Unknown error");
-        console.log(err);
-    }
-});
-
-router.get("/get-user-data", authenticate, (req, res)=>{
-    console.log(`Authenticated`);
-    res.send(req.rootUser);
-});
-
-router.get("/signout", (req, res)=>{
-    res.clearCookie('jwtoken', {path:'/'});
-    console.log(`Signed out successfully.`);
-    res.status(200).send("User signed out successfully.");
-})
-
-router.get("/signout-restaurant", (req, res)=>{
-    res.clearCookie('jwtoken2', {path:'/'});
-    console.log(`Signed out successfully.`);
-    res.status(200).send("Restaurant signed out successfully.");
-})
-
-
-router.get("/menu/:id", async (req, res)=>{
-    try{
-        const rootRestaurant = await Restaurant.findOne({_id: req.params.id});
-        const menu = await Menu.find({restaurant_email: rootRestaurant.email, status: "Available"});
-        if(!menu){
-            throw new Error('No dishes to show');
-        }
-        
-        res.send(menu);
-        console.log(`Menu list fetched successfully.`);
-    }
-    catch(err){
-        res.status(401).send("Unauthorized: Unknown error");
-        console.log(err);
-    }
-});
-
-
-
 router.post("/api/user-current-orders", async (req, res)=>{
     const {userId} = req.body;
     try{
@@ -171,7 +105,60 @@ router.post("/api/restaurant-previous-orders", async (req, res)=>{
 });
 
 
-router.get("/restaurantprofile/:id", async (req, res)=>{
+router.post("/api/restaurantDetails", async (req, res)=>{
+    try{
+        const rootRestaurant = await Restaurant.findOne({_id: req.body.id});
+        res.send(rootRestaurant);
+        console.log(`Restaurant details fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Technical error");
+        console.log(err);
+    }
+});
+
+
+router.get("/api/restaurants", async (req, res)=>{
+    try{
+        const restaurant = await Restaurant.find();
+        if(!restaurant){
+            throw new Error('No restaurant has been registered');
+        }
+        
+        res.send(restaurant);
+        console.log(`Restaurant list fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+router.get("/api/get-user-data", authenticate, (req, res)=>{
+    console.log(`Authenticated`);
+    res.send(req.rootUser);
+});
+
+
+router.get("/api/menu/:id", async (req, res)=>{
+    try{
+        const rootRestaurant = await Restaurant.findOne({_id: req.params.id});
+        const menu = await Menu.find({restaurant_email: rootRestaurant.email, status: "Available"});
+        if(!menu){
+            throw new Error('No dishes to show');
+        }
+        
+        res.send(menu);
+        console.log(`Menu list fetched successfully.`);
+    }
+    catch(err){
+        res.status(401).send("Unauthorized: Unknown error");
+        console.log(err);
+    }
+});
+
+
+router.get("/api/restaurantprofile/:id", async (req, res)=>{
     try{
         const rootRestaurant = await Restaurant.findOne({_id: req.params.id});
         const menu = await Menu.find({restaurant_email: rootRestaurant.email});
@@ -186,12 +173,12 @@ router.get("/restaurantprofile/:id", async (req, res)=>{
 })
 
 
-router.get("/account", authenticate, (req, res)=>{
+router.get("/api/account", authenticate, (req, res)=>{
     console.log(`Authenticated`);
     res.send(req.rootUser);
 })
 
-router.get("/account-restaurant", authenticateRestaurant, async (req, res)=>{
+router.get("/api/account-restaurant", authenticateRestaurant, async (req, res)=>{
     try{
         const data = req.rootRestaurant;
         const menu = await Menu.find({restaurant_email: data.email});
@@ -206,9 +193,8 @@ router.get("/account-restaurant", authenticateRestaurant, async (req, res)=>{
 })
 
 
-
-router.post("/update-menu", async(req, res)=>{
-    const{name, price, status, restaurant_email, quantity_served } = req.body;
+router.post("/api/update-menu", async(req, res)=>{
+    const{name, price, status, restaurant_email } = req.body;
 
     if( !name || !price || !status ){
         return res.status(422).json({error: "Please fill the entries properly"});
@@ -225,7 +211,7 @@ router.post("/update-menu", async(req, res)=>{
             return res.status(201).json({message: "Dish updated"});
         }
 
-        const dish = new Menu({name, price, status, restaurant_email, quantity_served});
+        const dish = new Menu({name, price, status, restaurant_email});
 
         await dish.save();
 
@@ -237,9 +223,7 @@ router.post("/update-menu", async(req, res)=>{
 });
 
 
-
-
-router.post("/update-account-restaurant", async(req, res)=>{
+router.post("/api/update-account-restaurant", async(req, res)=>{
     const{name, mobile, address, email, _id } = req.body;
 
     if( !name || !mobile || !email || !address ){
@@ -259,7 +243,7 @@ router.post("/update-account-restaurant", async(req, res)=>{
 });
 
 
-router.post("/update-account", async(req, res)=>{
+router.post("/api/update-account", async(req, res)=>{
     const{name, mobile, address, email, _id } = req.body;
 
     if( !name || !mobile || !email || !address ){
@@ -277,6 +261,9 @@ router.post("/update-account", async(req, res)=>{
             console.log(err);
         }    
 });
+
+
+
 router.post("/api/order-received", async(req, res)=>{
     const {orderId} = req.body;
     try{
@@ -295,26 +282,26 @@ router.post("/api/order-received", async(req, res)=>{
 });
 
 
-
-router.post("/orders", authenticateRestaurant, (req, res)=>{
+router.post("/api/orders", authenticateRestaurant, (req, res)=>{
     console.log(`Authenticated`);
     res.send(req.rootRestaurant);
 })
 
-router.post("/signin", async(req, res)=>{
-    const{email, password } = req.body;
 
+router.post("/api/signin", async(req, res)=>{
+    const{email, password } = req.body;
+    
     if(!email || !password){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
-
+    
     try{
         const userExist = await User.findOne({email:email});
-
+        
         if(!userExist){
             return res.status(400).json({error: "Invalid credentials"});
         }
-
+        
         const isMatch = await bcrypt.compare(password, userExist.password);
         const token = await userExist.generateAuthToken();
         
@@ -323,14 +310,14 @@ router.post("/signin", async(req, res)=>{
             httpOnly:true
         });
 
-
+        
         if(!isMatch){
             return res.status(400).json({error: "Invalid credentials"});
         }
         else{
             res.json({message: "SignIn successful"});
         }
-
+        
     }catch(err){
         console.log(err);
     }
@@ -338,9 +325,9 @@ router.post("/signin", async(req, res)=>{
 
 
 //register using async await
-router.post("/register", async(req, res)=>{
+router.post("/api/register", async(req, res)=>{
     const{name, email, address, mobile, password, confirm_password } = req.body;
-
+    
     if( !name || !mobile || !address || !email || !password || !confirm_password ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
@@ -348,10 +335,10 @@ router.post("/register", async(req, res)=>{
     if( password!=confirm_password ){
         return res.status(422).json({error: "Password mismatch"});
     }
-
+    
     try{
         const userExist = await User.findOne({email:email});
-            if(userExist){
+        if(userExist){
                 return res.status(422).json({error: "User already exists"});
             }
 
@@ -359,37 +346,37 @@ router.post("/register", async(req, res)=>{
 
             //hashing "password" and "confirm_password" before saving them to the database
             await user.save();
-
+            
             res.status(201).json({message: "User registered successfully"});
-
+            
         } catch(err){
             console.log(err);
         }    
-});
-
-
-router.post("/signin-restaurant", async(req, res)=>{
+    });
+    
+    
+router.post("/api/signin-restaurant", async(req, res)=>{
     const{email, password } = req.body;
 
     if(!email || !password){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
-
+    
     try{
         const restaurantExist = await Restaurant.findOne({email:email});
-
+        
         if(!restaurantExist){
             return res.status(400).json({error: "Invalid credentials"});
         }
-
+        
         const isMatch = bcrypt.compare(password, restaurantExist.password);
         const token = await restaurantExist.generateAuthToken();
-
+        
         res.cookie("jwtoken2", token, {
             expires:new Date(Date.now() + 450000000),
             httpOnly:true
         });
-
+        
         if(!isMatch){
             return res.status(400).json({error: "Invalid credentials"});
         }
@@ -403,23 +390,23 @@ router.post("/signin-restaurant", async(req, res)=>{
 });
 
 
-router.post("/register-restaurant", async(req, res)=>{
+router.post("/api/register-restaurant", async(req, res)=>{
     const{name, mobile, address, email, password, confirm_password } = req.body;
-
+    
     if( !name || !mobile || !email || !address || !password || !confirm_password ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
-
+    
     if( password!=confirm_password ){
         return res.status(422).json({error: "Password mismatch"});
     }
-
+    
     try{
         const restaurantExist = await Restaurant.findOne({email:email});
             if(restaurantExist){
                 return res.status(422).json({error: "Restaurant already exists"});
             }
-
+            
             const restaurant = new Restaurant({name, mobile, address, email, password, confirm_password});
             
             //hashing password and confirm_password before saving them to the database
@@ -431,6 +418,19 @@ router.post("/register-restaurant", async(req, res)=>{
             console.log(err);
         }    
 });
+
+
+router.get("/api/signout", (req, res)=>{
+    res.clearCookie('jwtoken', {path:'/'});
+    console.log(`Signed out successfully.`);
+    res.status(200).send("User signed out successfully.");
+})
+
+router.get("/api/signout-restaurant", (req, res)=>{
+    res.clearCookie('jwtoken2', {path:'/'});
+    console.log(`Signed out successfully.`);
+    res.status(200).send("Restaurant signed out successfully.");
+})
 
 
 module.exports = router

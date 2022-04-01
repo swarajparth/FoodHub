@@ -95,7 +95,7 @@ export default function Register() {
 
     const { name, email, address, mobile, password, confirm_password } = values;
 
-    const res = await fetch("/register", {
+    const res = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

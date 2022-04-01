@@ -16,10 +16,6 @@ const menuSchema=new mongoose.Schema  ({
     restaurant_email:{
         type: String,
         required: true
-    },
-    quantity_served : {
-        type : Number,
-        required: true
     }
 })
 

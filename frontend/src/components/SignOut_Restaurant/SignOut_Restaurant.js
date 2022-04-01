@@ -11,7 +11,7 @@ const SignOut = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('/signout-restaurant', {
+        fetch('/api/signout-restaurant', {
             method: "GET",
             headers: {
                 Accept: "application/json",

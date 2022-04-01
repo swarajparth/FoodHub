@@ -40,9 +40,19 @@ export default function SignIn() {
   const {state2, dispatch2} = React.useContext(UserContext);
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    if (state ||state2) {
+  React.useEffect(async() => {
+    const isCartNotEmpty = await sessionStorage.getItem("cartDishes");
+
+    if (state2) {
       navigate("/", {replace: true});
+    }
+    else if(state){
+      if( isCartNotEmpty){
+        navigate("/checkout", {replace: true});      
+      }
+      else{
+        navigate("/", {replace: true});
+      }
     }
   }, [state, state2])
 
@@ -61,7 +71,7 @@ export default function SignIn() {
 
     const { email, password } = values;
 
-    const res = await fetch("/signin", {
+    const res = await fetch("/api/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,11 +93,21 @@ export default function SignIn() {
       console.log(data.error);
     } else {
       dispatch(true);
+
       sessionStorage.setItem('isLoggedIn', true);
       sessionStorage.setItem("userId", data._id);
+
       window.alert(data.message);
       console.log(data.message);
-      navigate("/");
+
+      const isCartNotEmpty = await sessionStorage.getItem("cartDishes");
+
+      if( isCartNotEmpty){
+        navigate("/checkout", {replace: true});      
+      }
+      else{
+        navigate("/", {replace: true});
+      }
     }
   };
 

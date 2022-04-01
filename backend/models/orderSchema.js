@@ -1,47 +1,6 @@
 const mongoose = require('mongoose');
 
 const orderSchema=new mongoose.Schema  ({
-    //     {
-    //     name: {
-    //         type : String,
-    //         required : true
-    //     },
-    //     order_time:{
-    //         type: String,
-    //         required: true
-    //     },
-    //     quantity: {
-    //         type : Number,
-    //         required: true
-    //     },
-    //     amount:{
-    //         type: Number,
-    //         required: true
-    //     },
-    //     user_email:{
-    //         type: String,
-    //         required: true
-    //     },
-    //     status:{
-    //         type: String
-    //     },
-    //     description:{
-    //         type: String
-    //     },
-    //     restaurant_email:{
-    //         type: String
-    //     }
-    // },
-
-
-    // user_email:{
-    //     type: String,
-    //     required: true
-    // },
-    // restaurant_email:{
-    //     type: String,
-    //     required: true
-    // },
     userId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'

@@ -10,7 +10,7 @@ const SignOut = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('/signout', {
+        fetch('/api/signout', {
             method: "GET",
             headers: {
                 Accept: "application/json",

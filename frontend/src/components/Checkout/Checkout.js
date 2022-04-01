@@ -136,7 +136,7 @@ export default function Checkout() {
 
   const getUserData = async () => {
     try {
-      const res = await fetch("/get-user-data", {
+      const res = await fetch("/api/get-user-data", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -158,11 +158,11 @@ export default function Checkout() {
   };
 
   const callCheckoutPage = async () => {
+    const items = await sessionStorage.getItem("cartDishes");
+
     if (!sessionStorage.getItem("isLoggedIn")) {
       navigate("/signin");
     }
-
-    const items = sessionStorage.getItem("cartDishes");
 
     if (items) {
       const itemsJson = JSON.parse(items);

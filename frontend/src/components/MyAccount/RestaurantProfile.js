@@ -13,7 +13,7 @@ const RestaurantProfile = () => {
 
   const callRestaurantProfilePage = async () => {
     try {
-      const res = await fetch(`/restaurantprofile/${id}`, {
+      const res = await fetch(`/api/restaurantprofile/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
@@ -48,12 +48,12 @@ const RestaurantProfile = () => {
       <div className="wrapper " style={{ margin: '1%', marginBottom: '2%', paddingInline: '3%' }}>
         <div className="content">
           <div className="row" >
-            <div className="col-md-4" style={{ marginTop: '2%', paddingRight: '1%' }}>
+            <div className="col-md-5" style={{ marginTop: '2%', paddingRight: '1%' }}>
               <div className="card card-user" style={{ boxShadow: 'rgba(28, 28, 28, 0.35) 0px 0.4rem 1.8rem' }}>
 
                 <div className="card-body" style={{ textAlign: 'center' }}>
                   <div className="author">
-                    <img className="avatar border-gray" style={{ width: '95%' }} src={require("../../assets/img/restaurant.jpeg")} alt="..." />
+                    <img className="avatar border-gray" style={{ width: '85%', marginBottom:'1%' }} src={require("../../assets/img/restaurant.jpeg")} alt="..." />
                     <h5 className="title" style={{ color: "rgb(248, 77, 77)", padding: '2%', margin: '0' }}>{restaurant.name}</h5>
                     <p className="description" >
                     </p>
@@ -91,23 +91,12 @@ const RestaurantProfile = () => {
                       </div>
                     </div>
                   </div>
-                  <hr style={{ marginTop: '1%', marginBottom: '1%' }} />
-                  <div className="button-container">
-                    <div className="row">
-                      <div className="col-lg-4 ml-auto" style={{ textAlign: 'left', padding: '0', paddingTop: '2%' }}>
-                        <p>Today's Special</p>
-                      </div>
-                      <div className="col-lg-7 mr-auto" style={{ textAlign: 'right', padding: '0', paddingTop: '2%' }}>
-                        <p>Pizza</p>
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
 
             </div>
-            <div className="col-md-8" style={{ marginTop: '2%' }}>
+            <div className="col-md-7" style={{ marginTop: '2%' }}>
 
               <div className="card card-user" style={{ boxShadow: 'rgba(28, 28, 28, 0.35) 0px 0.4rem 1.8rem' }}>
                 <div className="card-header">
@@ -126,14 +115,10 @@ const RestaurantProfile = () => {
                           <th>
                             Status
                           </th>
-                          <th>
-                            Quantity Served
-                          </th>
                         </tr></thead>
                       <tbody>
                         {menu.length === 0 &&
                           <tr>
-                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
@@ -146,7 +131,6 @@ const RestaurantProfile = () => {
                                 <td>{dish.name}</td>
                                 <td>{dish.price}</td>
                                 <td>{dish.status}</td>
-                                <td>{dish.quantity_served}</td>
                               </tr>)
                             )}
                           </>

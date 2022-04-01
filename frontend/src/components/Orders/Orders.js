@@ -95,7 +95,7 @@ const Orders = () => {
 
   const callOrdersPage = async () => {
     try {
-      const res = await fetch("/orders", {
+      const res = await fetch("/api/orders", {
         method: "POST",
         headers: {
           Accept: "application/json",

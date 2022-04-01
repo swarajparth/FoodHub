@@ -11,7 +11,7 @@ const Menu = () => {
 
   const callMenuPage = async () =>{
     try{
-      const res = await fetch(`/menu/${id}`, {
+      const res = await fetch(`/api/menu/${id}`, {
         method: "GET",
         headers:{
           "Content-Type": "application/json"

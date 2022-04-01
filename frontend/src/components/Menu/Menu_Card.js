@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Box, ButtonGroup } from '@mui/material'
 import { UserContext } from '../../App'
 
 
 const Menu_Card = ({menu, id}) => {
+    
+    const navigate = useNavigate();
 
     const {state, dispatch} = React.useContext(UserContext);
     const {refresh, setRefresh} = React.useContext(UserContext);
@@ -56,9 +59,10 @@ const Menu_Card = ({menu, id}) => {
         if(count === 0){
             
         }
-        else if(!state){
-            window.alert("User not signed in");
-        }
+        // else if(!state){
+        //     window.alert("User not signed in");
+        //     navigate("/signin");
+        // }
         else{
             // let x = (!(sessionStorage.getItem('cartDishes')))
             //     ? JSON.parse(sessionStorage.setItem('cartDishes', JSON.stringify([])))

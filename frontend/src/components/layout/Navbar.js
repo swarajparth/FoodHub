@@ -111,6 +111,12 @@ const Navbar = () => {
             Add Restaurant
           </NavLink>
 
+          <NavLink id="hero-cart" to="/cart" >
+            <Badge color="secondary" badgeContent={cartItems()}>
+              <i className="bi bi-cart" style={{ fontSize: "2rem" }} />
+            </Badge>
+          </NavLink>
+
           <NavLink to="/register">
             Sign Up
           </NavLink>

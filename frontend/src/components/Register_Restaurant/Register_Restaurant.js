@@ -95,7 +95,7 @@ export default function Register_Restaurant() {
 
     const { name, email, address, mobile, password, confirm_password } = values;
 
-    const res = await fetch("/register-restaurant", {
+    const res = await fetch("/api/register-restaurant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -2,15 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 
 const MyAccount = () => {
-  let count = 0;
-
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -31,7 +24,7 @@ const MyAccount = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const res = await fetch("/update-account", {
+    const res = await fetch("/api/update-account", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +51,7 @@ const MyAccount = () => {
 
   const callAccountPage = async () => {
     try {
-      const res = await fetch("/account", {
+      const res = await fetch("/api/update-account", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -109,7 +102,6 @@ const MyAccount = () => {
     }
   };
 
-
   const getUserCurrentOrders = async () => {
     const userId = sessionStorage.getItem("userId");
     try {
@@ -159,11 +151,11 @@ const MyAccount = () => {
       setLoading(false);
     });
   }, [refresh]);
-  
+
   return (
     <>
       <Navbar />
-<p>{}</p>
+      <p>{}</p>
       <div>
         <div className="wrapper " style={{ margin: "3%", paddingInline: "3%" }}>
           <div className="content">
@@ -179,7 +171,7 @@ const MyAccount = () => {
                     <div className="author">
                       <img
                         className="avatar border-gray"
-                        style={{ width: "15rem" }}
+                        style={{ width: "85%" }}
                         src={require("../../assets/img/mike.jpg")}
                         alt="..."
                       />
@@ -221,10 +213,13 @@ const MyAccount = () => {
                           {userCurrentOrders.map((userCurrentOrder) => {
                             return (
                               <>
-                                <h4 style={{textAlign:'center'}}>
+                                <h4 style={{ textAlign: "center" }}>
                                   {userCurrentOrder.restaurantId.name}
                                 </h4>
-                                <hr/>
+                                <p style={{ textAlign: "center" }}>
+                                  {userCurrentOrder._id}
+                                </p>
+                                <hr />
                                 {userCurrentOrder.orderItems.map(
                                   (orderItem, i) => {
                                     return (
@@ -242,33 +237,30 @@ const MyAccount = () => {
                                     );
                                   }
                                 )}
-                                <div style={{display:'flex', justifyContent:'center'}}>
-                                <Button
-                            type="submit"
-                            variant="contained"
-                            onClick={()=>orderReceived(userCurrentOrder)}
-                            sx={{ mt:1, bgcolor: "error.main" }}
-                          >
-                            Received
-                          </Button>
-                          </div>
-                                <hr/>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <Button
+                                    type="submit"
+                                    variant="contained"
+                                    onClick={() =>
+                                      orderReceived(userCurrentOrder)
+                                    }
+                                    sx={{ mt: 1, bgcolor: "error.main" }}
+                                  >
+                                    Received
+                                  </Button>
+                                </div>
+                                <hr />
                               </>
                             );
                           })}
                         </>
                       ) : (
-                        <li>
-                          <div className="row">
-                            <div className="col-md-7 col-7">
-                              -
-                              <br />
-                            </div>
-                            <div className="col-md-3 col-3 text-right">
-                              <h6>-</h6>
-                            </div>
-                          </div>
-                        </li>
+                        <h4 style={{ textAlign: "center" }}>No orders</h4>
                       )}
                     </ul>
                   </div>
@@ -369,52 +361,61 @@ const MyAccount = () => {
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">
-                      <table className="table">
-                        <thead className=" text-primary">
-                          <tr style={{ color: "#941919" }}>
-                            <th>Sr</th>
-                            <th>Name</th>
-                            <th>Restaurant</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {userPreviousOrders.length && !loading ? (
-                            <>
-                              {userPreviousOrders.map(
-                                (userPreviousOrder) => {
-                                  return userPreviousOrder.orderItems.map(
-                                    (orderItem, i) => {
-                                      return (
-                                        <tr key={i}>
-                                          <td>{1+ count++}</td>
-                                          <td>{orderItem.name}</td>
-                                          <td>
-                                            {
-                                              userPreviousOrder.restaurantId
-                                                .name
-                                            }
-                                          </td>
-                                          <td>{orderItem.quantity}</td>
-                                          <td>{orderItem.amount}</td>
-                                        </tr>
-                                      );
-                                    }
-                                  );
-                                }
-                              )}
-                            </>
-                          ) : (
-                            <tr>
-                              <td>-</td>
-                              <td>-</td>
-                              <td>-</td>
-                              <td>-</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
+                      {userPreviousOrders.length && !loading ? (
+                        <>
+                          {userPreviousOrders.map((userPreviousOrder) => {
+                            return (
+                              <>
+                                <h4 style={{ textAlign: "center" }}>
+                                  {userPreviousOrder.restaurantId.name}
+                                </h4>
+                                <p style={{ textAlign: "center" }}>
+                                  {userPreviousOrder._id}
+                                </p>
+
+                                <table
+                                  className="table"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <thead className=" text-primary">
+                                    <tr style={{ color: "#941919" }}>
+                                      <th>Sr</th>
+                                      <th>Name</th>
+                                      <th>Quantity</th>
+                                      <th>Amount</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {userPreviousOrder.orderItems.map(
+                                      (orderItem, i) => {
+                                        return (
+                                          <tr key={i}>
+                                            <td>{i + 1}</td>
+                                            <td>{orderItem.name}</td>
+                                            <td>{orderItem.quantity}</td>
+                                            <td>{orderItem.amount}</td>
+                                          </tr>
+                                        );
+                                      }
+                                    )}
+                                  </tbody>
+                                </table>
+                                <p style={{ textAlign: "center" }}>
+                                  Total Amount: ₹{" "}
+                                  {userPreviousOrder.orderItems.reduce(
+                                    (sum, dish) =>
+                                      sum + dish.price * dish.quantity,
+                                    0
+                                  )}
+                                </p>
+                                <hr />
+                              </>
+                            );
+                          })}
+                        </>
+                      ) : (
+                        <h4 style={{ textAlign: "center" }}>No orders</h4>
+                      )}
                     </div>
                   </div>
                 </div>

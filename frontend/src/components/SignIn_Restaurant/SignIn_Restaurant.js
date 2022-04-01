@@ -42,7 +42,7 @@ export default function SignIn_Restaurant() {
 
   React.useEffect(() => {
     if (state || state2) {
-      navigate("/", {replace: true});
+      navigate("/account-restaurant", {replace: true});
     }
   }, [state, state2])
 
@@ -61,7 +61,7 @@ export default function SignIn_Restaurant() {
     
     const {email, password} = values;
 
-    const res = await fetch("/signin-restaurant", {
+    const res = await fetch("/api/signin-restaurant", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export default function SignIn_Restaurant() {
       sessionStorage.setItem('isRestaurantLoggedIn', true);
       window.alert(data.message);
       console.log(data.message);
-      navigate("/");
+      navigate("/account-restaurant");
     }
   };
 

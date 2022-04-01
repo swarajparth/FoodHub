@@ -7,6 +7,8 @@ import { UserContext } from "../../App";
 
 const Cart = () => {
   const navigate = useNavigate();
+  
+  const {state, dispatch} = useContext(UserContext);
   const [userData, setUserData] = useState({});
   const [restaurantData, setRestaurantData] = useState({});
   const [x, setX] = useState([]);
@@ -34,7 +36,7 @@ const Cart = () => {
 
   const fetchRestaurantDetails = async (items) => {
     try {
-      const res = await fetch("/restaurantDetails", {
+      const res = await fetch("/api/restaurantDetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +53,7 @@ const Cart = () => {
 
   const getUserData = async () => {
     try {
-      const res = await fetch("/get-user-data", {
+      const res = await fetch("/api/get-user-data", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -80,7 +82,7 @@ const Cart = () => {
       if (itemsJson.length > 0) fetchRestaurantDetails(itemsJson);
       setX(itemsJson);
     }
-    getUserData();
+    // getUserData();
   }, []);
 
   return (
