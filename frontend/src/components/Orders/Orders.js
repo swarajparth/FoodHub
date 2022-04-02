@@ -81,8 +81,11 @@ const Orders = () => {
 
   const [loading, setLoading] = React.useState(true);
   const [ordersData, setOrdersData] = React.useState({});
-  const [restaurantCurrentOrders, setRestaurantCurrentOrders] = React.useState([]);
-  const [restaurantPreviousOrders, setRestaurantPreviousOrders] =React.useState([]);
+  const [restaurantCurrentOrders, setRestaurantCurrentOrders] = React.useState(
+    []
+  );
+  const [restaurantPreviousOrders, setRestaurantPreviousOrders] =
+    React.useState([]);
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -167,16 +170,15 @@ const Orders = () => {
       setLoading(false);
     });
 
-  // callOrdersPage();
-  // const items = sessionStorage.getItem('cartDishes');
-  // if (items.length > 0) {
-  //   const itemsJson = JSON.parse(items);
+    // callOrdersPage();
+    // const items = sessionStorage.getItem('cartDishes');
+    // if (items.length > 0) {
+    //   const itemsJson = JSON.parse(items);
 
-  //   if (itemsJson.length > 0) fetchRestaurantDetails(itemsJson);
-  //   setX(itemsJson);
-  // }
-  // getUserData();
-
+    //   if (itemsJson.length > 0) fetchRestaurantDetails(itemsJson);
+    //   setX(itemsJson);
+    // }
+    // getUserData();
   }, []); //array dependency - means executes only once as the page gets loaded
 
   return (
@@ -187,11 +189,6 @@ const Orders = () => {
     // <p>Email: {ordersData.email}</p>
     // <p>Contact Number: {ordersData.mobile}</p>
     // </div>
-
-
-
-
-
 
     <>
       <Navbar />
@@ -217,7 +214,7 @@ const Orders = () => {
                 <ArrowForwardIosIcon />
               </Button>
             </div>
-            <CurrentOrders restaurantCurrentOrders = {restaurantCurrentOrders}/>
+            <CurrentOrders restaurantCurrentOrders={restaurantCurrentOrders} />
           </>
         ) : (
           <>
@@ -233,19 +230,11 @@ const Orders = () => {
                 <ArrowBackIosNewIcon />
               </Button>
             </div>
-            <PreviousOrders restaurantPreviousOrders = {restaurantPreviousOrders}/>
+            <PreviousOrders
+              restaurantPreviousOrders={restaurantPreviousOrders}
+            />
           </>
         )}
-
-
-
-
-
-
-
-
-
-
 
         {/* 
     <CurrentOrders/>;

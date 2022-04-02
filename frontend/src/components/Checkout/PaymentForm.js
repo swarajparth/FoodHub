@@ -45,7 +45,6 @@ export default function PaymentForm({payment_mode, setPaymentMode}) {
       </RadioGroup>
     </FormControl>
       <Grid container spacing={3}>
-        {/* <input type="radio">Cash on Delivery</input> */}
         <Grid item xs={12} md={6}>
           <TextField
             disabled

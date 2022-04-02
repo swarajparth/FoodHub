@@ -196,7 +196,7 @@ router.get("/api/account-restaurant", authenticateRestaurant, async (req, res)=>
 router.post("/api/update-menu", async(req, res)=>{
     const{name, price, status, restaurant_email } = req.body;
 
-    if( !name || !price || !status ){
+    if( !name.trim() || !price.trim() || !status.trim() ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
 
@@ -226,7 +226,7 @@ router.post("/api/update-menu", async(req, res)=>{
 router.post("/api/update-account-restaurant", async(req, res)=>{
     const{name, mobile, address, email, _id } = req.body;
 
-    if( !name || !mobile || !email || !address ){
+    if( !name.trim() || !mobile.trim() || !email.trim() || !address.trim() ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
 
@@ -246,7 +246,7 @@ router.post("/api/update-account-restaurant", async(req, res)=>{
 router.post("/api/update-account", async(req, res)=>{
     const{name, mobile, address, email, _id } = req.body;
 
-    if( !name || !mobile || !email || !address ){
+    if( !name.trim() || !mobile.trim() || !email.trim() || !address.trim() ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
 
@@ -291,7 +291,7 @@ router.post("/api/orders", authenticateRestaurant, (req, res)=>{
 router.post("/api/signin", async(req, res)=>{
     const{email, password } = req.body;
     
-    if(!email || !password){
+    if(!email.trim() || !password.trim()){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
     
@@ -328,7 +328,7 @@ router.post("/api/signin", async(req, res)=>{
 router.post("/api/register", async(req, res)=>{
     const{name, email, address, mobile, password, confirm_password } = req.body;
     
-    if( !name || !mobile || !address || !email || !password || !confirm_password ){
+    if( !name.trim() || !mobile.trim() || !address.trim() || !email.trim() || !password.trim() || !confirm_password.trim() ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
 
@@ -358,7 +358,7 @@ router.post("/api/register", async(req, res)=>{
 router.post("/api/signin-restaurant", async(req, res)=>{
     const{email, password } = req.body;
 
-    if(!email || !password){
+    if(!email.trim() || !password.trim()){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
     
@@ -393,7 +393,7 @@ router.post("/api/signin-restaurant", async(req, res)=>{
 router.post("/api/register-restaurant", async(req, res)=>{
     const{name, mobile, address, email, password, confirm_password } = req.body;
     
-    if( !name || !mobile || !email || !address || !password || !confirm_password ){
+    if( !name.trim() || !mobile.trim() || !email.trim() || !address.trim() || !password.trim() || !confirm_password.trim() ){
         return res.status(422).json({error: "Please fill the entries properly"});
     }
     

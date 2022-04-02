@@ -94,6 +94,34 @@ export default function Register_Restaurant() {
     event.preventDefault();
 
     const { name, email, address, mobile, password, confirm_password } = values;
+    
+    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+    //purpose of ? is it makes regex exp optional like whatever part u want
+
+    const regex_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    const regex_mobile = /^[6-9][0-9]{9}$/;
+    
+    if(!(regex_email.test(email))){
+      window.alert("Please enter a valid email");
+      return;
+    }
+
+    if(!(regex_password.test(password))){
+      window.alert("Password must have:\n\n Minimum 8 characters,\n At least 1 uppercase letter,\n At least 1 lowercase letter,\n At least 1 number,\n At least 1 special character");
+      return;
+    }
+
+    if(!(regex_mobile.test(mobile))){
+      window.alert("Please enter a valid mobile number starting with digit >= 6");
+      return;
+    }
+
+    if( password!=confirm_password ){
+      window.alert("Password mismatch");
+      return;
+    }
+
 
     const res = await fetch("/api/register-restaurant", {
       method: "POST",

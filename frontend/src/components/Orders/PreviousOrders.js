@@ -1,93 +1,97 @@
-import React from 'react'
+import React from "react";
 
-const PreviousOrders = ({restaurantPreviousOrders}) => {
-    return (
-          <div className="table-responsive">
-            <h1>
-              <b>Previous Orders</b>
-              <hr />
-            </h1>
-            <div className="Items" style={{ margin: "2%" }}>
-          <table className="table">
-            <thead className=" text-primary">
-              <tr style={{ color: "#941919" }}>
-                <th>Dish</th>
-                <th>Quantity</th>
-                <th>Amount</th>
-                <th>Customer</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Delivery Address</th>
-                <th>Payment Method</th>
-              </tr>
-            </thead>
+const PreviousOrders = ({ restaurantPreviousOrders }) => {
+  return (
+    <div className="table-responsive">
+      <h1>
+        <b>Previous Orders</b>
+        <hr />
+      </h1>
+      <div className="Items" style={{ margin: "2%" }}>
+        {restaurantPreviousOrders.length ? (
+          <>
+            {restaurantPreviousOrders.map((restaurantPreviousOrder) => {
+              return (
+                <>
+                  <h4 style={{ textAlign: "center" }}>
+                    Order Id: {restaurantPreviousOrder._id}
+                  </h4>
 
-            <tbody>
-
-
-                
-            {restaurantPreviousOrders.length ? (
-                            <>
-                              {restaurantPreviousOrders.map(
-                                (restaurantPreviousOrder) => {
-                                  return restaurantPreviousOrder.orderItems.map(
-                                    (orderItem, i) => {
-                                      return (
-                                        <tr key={i}>
-                                            <td>{orderItem.name}</td>
-                                            <td>{orderItem.quantity}</td>
-                                            <td>{orderItem.amount}</td>
-                                          <td>
-                                            {restaurantPreviousOrder.userId.name}
-                                          </td>
-                                          <td>
-                                            {restaurantPreviousOrder.userId.email}
-                                          </td>
-                                          <td>{restaurantPreviousOrder.userId.mobile}</td>
-                                          <td>
-                                              <ul style={{listStyleType:"none", padding:0}}>
-                                              <li>
-                                              {restaurantPreviousOrder.delivery_address.address1}<br/>
-                                              </li>
-                                              <li>
-                                              {restaurantPreviousOrder.delivery_address.address2}<br/>
-                                              </li>
-                                              <li>
-                                              {restaurantPreviousOrder.delivery_address.city}<br/>
-                                              </li>
-                                              <li>
-                                              {restaurantPreviousOrder.delivery_address.zip}<br/>
-                                              </li>
-                                              </ul>
-                                        </td>
-                                          <td>{restaurantPreviousOrder.payment_mode}</td>
-                                        </tr>
-                                      );
+                  <table className="table">
+                    <thead className=" text-primary">
+                      <tr style={{ color: "#941919" }}>
+                        <th>Dish</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Delivery Address</th>
+                        <th>Payment Method</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {restaurantPreviousOrder.orderItems.map(
+                        (orderItem, i) => {
+                          return (
+                            <tr key={i}>
+                              <td>{orderItem.name}</td>
+                              <td>{orderItem.quantity}</td>
+                              <td>{orderItem.amount}</td>
+                              <td>{restaurantPreviousOrder.userId.name}</td>
+                              <td>{restaurantPreviousOrder.userId.email}</td>
+                              <td>{restaurantPreviousOrder.userId.mobile}</td>
+                              <td>
+                                <ul
+                                  style={{ listStyleType: "none", padding: 0 }}
+                                >
+                                  <li>
+                                    {
+                                      restaurantPreviousOrder.delivery_address
+                                        .address1
                                     }
-                                  );
-                                }
-                              )}
-                            </>
-                          ) : (
-                            <tr>
-                <td> - </td>
-                <td> - </td>
-                <td> - </td>
-                <td> - </td>
-                <td> - </td>
-                <td> - </td>
-                <td> - </td>
-                <td> - </td>
-              </tr>
-                          )}
+                                    <br />
+                                  </li>
+                                  <li>
+                                    {
+                                      restaurantPreviousOrder.delivery_address
+                                        .address2
+                                    }
+                                    <br />
+                                  </li>
+                                  <li>
+                                    {
+                                      restaurantPreviousOrder.delivery_address
+                                        .city
+                                    }
+                                    <br />
+                                  </li>
+                                  <li>
+                                    {
+                                      restaurantPreviousOrder.delivery_address
+                                        .zip
+                                    }
+                                    <br />
+                                  </li>
+                                </ul>
+                              </td>
+                              <td>{restaurantPreviousOrder.payment_mode}</td>
+                            </tr>
+                          );
+                        }
+                      )}
+                    </tbody>
+                  </table>
+                </>
+              );
+            })}
+          </>
+        ) : (
+          <h4 style={{ textAlign: "center" }}>No orders</h4>
+        )}
+      </div>
+    </div>
+  );
+};
 
-
-              
-            </tbody>
-          </table>
-        </div>
-          </div>
-      );
-}
-
-export default PreviousOrders
+export default PreviousOrders;

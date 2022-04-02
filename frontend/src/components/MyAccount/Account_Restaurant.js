@@ -25,6 +25,23 @@ const Account_Restaurant = () => {
     event.preventDefault();
     const { name, email, address, mobile, _id } = values;
 
+    
+    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+    //purpose of ? is it makes regex exp optional like whatever part u want
+
+    const regex_mobile = /^[6-9][0-9]{9}$/;
+    
+    if(!(regex_email.test(email))){
+      window.alert("Please enter a valid email");
+      return;
+    }
+
+    if(!(regex_mobile.test(mobile))){
+      window.alert("Please enter a valid mobile number starting with digit >= 6");
+      return;
+    }
+
+
     const res = await fetch("/api/update-account-restaurant", {
       method: "POST",
       headers: {

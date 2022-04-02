@@ -85,6 +85,14 @@ export default function Checkout() {
         placeOrder();
       }
     } else if (values.address1 && values.city && values.zip) {
+      
+      const regex_mobile = /^[0-9]{5,10}$/;
+      
+      if(!(regex_mobile.test(values.zip))){
+        window.alert("Please enter a valid zip/postal code of length between 5 to 10 digits");
+        return;
+      }
+      
       setActiveStep(activeStep + 1);
     }
   };
@@ -231,9 +239,6 @@ export default function Checkout() {
               {activeStep === steps.length ? (
                 <React.Fragment>
                   <img src={require("../../assets/img/thank-note.jpg")} className="card-img-top" alt="..." />
-                  {/* <Typography variant="h5" gutterBottom style={{textAlign:'center'}}>
-                    Thank you for your order.
-                  </Typography> */}
                   <Typography variant="subtitle1" style={{textAlign:'center', marginTop:'1rem'}}>
                     Your order ID is {placedOrderId}.<br/>
                     Current orders can be seen on your account page.<br/>

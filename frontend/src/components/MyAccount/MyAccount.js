@@ -24,6 +24,23 @@ const MyAccount = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    
+    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+    //purpose of ? is it makes regex exp optional like whatever part u want
+
+    const regex_mobile = /^[6-9][0-9]{9}$/;
+    
+    if(!(regex_email.test(values.email))){
+      window.alert("Please enter a valid email");
+      return;
+    }
+
+    if(!(regex_mobile.test(values.mobile))){
+      window.alert("Please enter a valid mobile number starting with digit >= 6");
+      return;
+    }
+
+
     const res = await fetch("/api/update-account", {
       method: "POST",
       headers: {
@@ -51,7 +68,7 @@ const MyAccount = () => {
 
   const callAccountPage = async () => {
     try {
-      const res = await fetch("/api/update-account", {
+      const res = await fetch("/api/account", {
         method: "GET",
         headers: {
           Accept: "application/json",
