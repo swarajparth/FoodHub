@@ -27,14 +27,3 @@ npm install
 cd ../backend
 npm install
 ```
-
-
-### Contributors:
-
-<p>Swaraj Parth</p>
-<p>Prasunna Soppa</p>
-<p>Priyanshi</p>
-<p>Shyam Marjit</p>
-
-
-🙏 If you find this repo helpful then don't forget to give a start ❇️ to this repository. :)
