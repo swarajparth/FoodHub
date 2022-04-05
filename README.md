@@ -1,21 +1,14 @@
-FOOD-HUB
+# FOOD-HUB
 
+> Online Food Ordering system built using MERN stack.
 
-### Technologies Used
-
-- React.js
-- MongoDB
-- Node.js
-- Express.js
-- Json Web Token
-
-
+## Usage
 
 ### Env Variables
 
 Create a .env file (config.env) inside the backend folder and reach us out for its source code.
 
-## Installation
+### Installation
 
 - Clone the repository
 - Run following commands to install the dependencies
