@@ -21,7 +21,6 @@ Create a .env file (config.env) inside the backend folder and reach us out for i
 - Go to the project directory and run the following commands to install the dependencies (frontend & backend)
 
 ```
-npm install
 cd frontend
 npm install
 cd ../backend
