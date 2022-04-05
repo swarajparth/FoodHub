@@ -3,10 +3,10 @@ FOOD-HUB
 
 ### Technologies Used
 
-- Reactjs
+- React.js
 - MongoDB
-- Nodejs
-- Expressjs
+- Node.js
+- Express.js
 - Json Web Token
 
 
@@ -14,10 +14,7 @@ FOOD-HUB
 ## Installation
 
 - Clone the repository
-- Go to the project directory and run the following commands
-
-
-### Install Dependencies (frontend & backend)
+- Go to the project directory and run the following commands to install the dependencies (frontend & backend)
 
 ```
 npm install
@@ -33,5 +30,7 @@ npm install
 Prasunna Soppa
 Priyanshi
 Shyam Marjit
+
+
 
 🙏 If you find this repo helpful then don't forget to give a start ❇️ to this repository. :)
