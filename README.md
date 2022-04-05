@@ -19,3 +19,5 @@ FOOD-HUB
 `npm install` to install all the dependencies.
 
 `npm run dev` to start the application.
+
+🙏 If you find this repo helpful then don't forget to give a start ❇️ to this repository. :)
