@@ -11,6 +11,10 @@ FOOD-HUB
 
 
 
+### Env Variables
+
+Create a .env file (config.env) inside the backend folder and reach us out for its source code.
+
 ## Installation
 
 - Clone the repository
