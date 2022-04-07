@@ -74,20 +74,12 @@ export default function SignIn() {
     const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
     //purpose of ? is it makes regex exp optional like whatever part u want
 
-    const regex_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
     if(!(regex_email.test(email))){
       window.alert("Please enter a valid email");
       return;
     }
 
-    if(!(regex_password.test(password))){
-      window.alert("Password must have:\n\n Minimum 8 characters,\n At least 1 uppercase letter,\n At least 1 lowercase letter,\n At least 1 number,\n At least 1 special character");
-      return;
-    }
 
-
-    
     const res = await fetch("/api/signin", {
       method: "POST",
       headers: {
@@ -188,7 +180,7 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <NavLink className="nav-link" to="#">
+                  <NavLink className="nav-link" to="/forgot-password">
                     Forgot password?
                   </NavLink>
                 </Grid>

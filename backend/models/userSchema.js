@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+//bcryptjs uses Blowfish cryptographic algorithm internally to hash the password
 
 const userSchema=new mongoose.Schema  ({
     name : {
@@ -26,6 +27,10 @@ const userSchema=new mongoose.Schema  ({
     confirm_password : {
         type : String,
         required : true
+    },
+    otp:{
+        type: Number,
+        default: 0
     }
 })
 

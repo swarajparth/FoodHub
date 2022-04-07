@@ -19,6 +19,7 @@ import Orders from './components/Orders/Orders';
 import All_Restaurants from './components/All_Restaurants/All_Restaurants';
 import RestaurantProfile from './components/MyAccount/RestaurantProfile'
 import Checkout from './components/Checkout/Checkout';
+import Forgot_Password from './components/Forgot_Password/Forgot_Password';
 
 
 //contextAPI
@@ -67,6 +68,7 @@ const App = () => {
         <Route path='/restaurants' element={<All_Restaurants/>} />
         <Route path='/restaurantprofile/:id' element={<RestaurantProfile/>} />
         <Route path='/checkout' element={<Checkout/>} />
+        <Route path='/forgot-password' element={<Forgot_Password/>} />
         <Route path='*' element={<ErrorPage/>} />
       </Routes>
       </Router>
