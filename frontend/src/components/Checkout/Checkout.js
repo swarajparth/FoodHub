@@ -3,6 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -45,12 +46,19 @@ export default function Checkout() {
   const [payment_mode, setPaymentMode] = React.useState("Cash on Delivery");
   const [orderItems, setOrderItems] = React.useState([{}]);
 
+  const [comment, setComment] = React.useState("");
+
   const [values, setValues] = React.useState({
     address1: "",
     address2: "",
     city: "",
-    zip: "",
+    zip: ""
   });
+
+  const handleChangeValues = () => (event) => {
+    setComment(event.target.value);
+  };
+
 
   function getStepContent(step) {
     switch (step) {
@@ -110,6 +118,8 @@ export default function Checkout() {
     );
     const delivery_address = values;
 
+    setComment(comment.trim());
+
     try {
       const res = await fetch("/api/placeOrder", {
         method: "POST",
@@ -123,6 +133,7 @@ export default function Checkout() {
           delivery_address,
           payment_mode,
           orderItems,
+          comment
         }),
       });
 
@@ -248,6 +259,22 @@ export default function Checkout() {
               ) : (
                 <React.Fragment>
                   {getStepContent(activeStep)}
+                  {activeStep === steps.length - 1
+                          ? 
+                          <div style={{display:'flex', justifyContent:'flex-end'}}>
+                                  <TextField
+                                            margin="normal"
+                                            id="comment"
+                                            label="Pre-order Comments for Restaurant"
+                                            name="comment"
+                                            autoComplete="off"
+                                            fullWidth
+                                            value={comment}
+                                            onChange={handleChangeValues()}
+                                            autoFocus
+                                          /></div>
+                          
+                          : ""}
                   <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <div
                       style={{ display: "flex", justifyContent: "flex-start" }}

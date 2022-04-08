@@ -13,9 +13,17 @@ const PreviousOrders = ({ restaurantPreviousOrders }) => {
             {restaurantPreviousOrders.map((restaurantPreviousOrder) => {
               return (
                 <>
-                  <h4 style={{ textAlign: "center" }}>
+                  <div style={{textAlign: "center", boxShadow: "20px 20px 50px 10px silver inset"}}>
+                  <h4>
                     Order Id: {restaurantPreviousOrder._id}
                   </h4>
+                  <br/>
+                  {restaurantPreviousOrder.comment !== "" ?
+                    <p>
+                      <b>Pre-Order Comment</b><br/>{restaurantPreviousOrder.comment}
+                    </p>
+                  :""}
+                </div>
 
                   <table className="table">
                     <thead className=" text-primary">
@@ -82,6 +90,7 @@ const PreviousOrders = ({ restaurantPreviousOrders }) => {
                       )}
                     </tbody>
                   </table>
+                  <hr/>
                 </>
               );
             })}

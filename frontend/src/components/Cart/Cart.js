@@ -7,8 +7,8 @@ import { UserContext } from "../../App";
 
 const Cart = () => {
   const navigate = useNavigate();
-  
-  const {state, dispatch} = useContext(UserContext);
+
+  const { state, dispatch } = useContext(UserContext);
   const [userData, setUserData] = useState({});
   const [restaurantData, setRestaurantData] = useState({});
   const [x, setX] = useState([]);
@@ -97,70 +97,86 @@ const Cart = () => {
         }}
       >
         <div className="table-responsive">
-        <h1>
-          <b>Cart</b>
-          <hr />
-        </h1>
-        <div className="Items" style={{ margin: "2%" }}>
-          <table className="table">
-            <thead className=" text-primary">
-              <tr style={{ color: "#941919" }}>
-                <th>Name</th>
-                <th>Restaurant</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {x.length > 0 ? (
-                <>
-                  {x.map((dish) => (
-                    <tr>
-                      <td>{dish.name}</td>
-                      <td>{restaurantData.name}</td>
-                      <td>{dish.quantity}</td>
-                      <td>{dish.price}</td>
-                      <td>{dish.amount}</td>
-                      <>
-                        <DeleteIcon
-                          onClick={() => deleteDish(dish.name)}
-                          style={{ cursor: "pointer" }}
-                          sx={{ mt: 2 }}
-                        />
-                      </>
-                    </tr>
-                  ))}
-                </>
-              ) : (
-                <tr>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
+          <h1>
+            <b>Cart</b>
+            <hr />
+          </h1>
+          <div className="Items" style={{ margin: "2%" }}>
+            <table className="table">
+              <thead className=" text-primary">
+                <tr style={{ color: "#941919" }}>
+                  <th>Name</th>
+                  <th>Restaurant</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Amount</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className="total-amount" style={{ textAlign: "center" }}>
-          <hr />
-          Total Amount to be paid: ₹{" "}
-          {x.reduce((sum, dish) => sum + dish.price * dish.quantity, 0)}
-        </div>
-        <div
-          style={{ padding: "1%", display: "flex", justifyContent: "center" }}
-        >
-          <Button
-            onClick={clear}
-            style={{ color: "#941919", padding: "0.5rem", marginRight: "1rem" }}
+              </thead>
+              <tbody>
+                {x.length > 0 ? (
+                  <>
+                    {x.map((dish) => (
+                      <tr>
+                        <td>{dish.name}</td>
+                        <td>{restaurantData.name}</td>
+                        <td>{dish.quantity}</td>
+                        <td>{dish.price}</td>
+                        <td>{dish.amount}</td>
+                        <>
+                          <DeleteIcon
+                            onClick={() => deleteDish(dish.name)}
+                            style={{ cursor: "pointer" }}
+                            sx={{ mt: 2 }}
+                          />
+                        </>
+                      </tr>
+                    ))}
+                  </>
+                ) : (
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="total-amount" style={{ textAlign: "center" }}>
+            <hr />
+            Total Amount to be paid: ₹{" "}
+            {x.reduce((sum, dish) => sum + dish.price * dish.quantity, 0)}
+          </div>
+          <div
+            style={{ padding: "1%", display: "flex", justifyContent: "center" }}
           >
-            <b>Clear</b>
-          </Button>
+            <Button
+              onClick={clear}
+              style={{
+                color: "#941919",
+                padding: "0.5rem",
+                marginRight: "1rem",
+              }}
+            >
+              <b>Clear</b>
+            </Button>
 
-          {x.length > 0 ? (
-            <NavLink to="/checkout" variant="body2">
+            {x.length > 0 ? (
+              <NavLink to="/checkout" variant="body2">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{
+                    boxShadow: "rgba(28, 28, 28, 0.35) 0px 0.4rem 1rem",
+                  }}
+                  sx={{ mt: 1, mb: 1, bgcolor: "error.main" }}
+                >
+                  Checkout
+                </Button>
+              </NavLink>
+            ) : (
               <Button
                 type="submit"
                 variant="contained"
@@ -169,20 +185,10 @@ const Cart = () => {
               >
                 Checkout
               </Button>
-            </NavLink>
-          ) : (
-            <Button
-              type="submit"
-              variant="contained"
-              style={{ boxShadow: "rgba(28, 28, 28, 0.35) 0px 0.4rem 1rem" }}
-              sx={{ mt: 1, mb: 1, bgcolor: "error.main" }}
-            >
-              Checkout
-            </Button>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

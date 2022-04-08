@@ -230,12 +230,19 @@ const MyAccount = () => {
                           {userCurrentOrders.map((userCurrentOrder) => {
                             return (
                               <>
-                                <h4 style={{ textAlign: "center" }}>
+                              <div style={{textAlign: "center", boxShadow: "20px 20px 50px 10px silver inset"}}>
+                                <h4>
                                   {userCurrentOrder.restaurantId.name}
                                 </h4>
-                                <p style={{ textAlign: "center" }}>
+                                <p>
                                   {userCurrentOrder._id}
                                 </p>
+                                {userCurrentOrder.comment !== "" ?
+                                  <p>
+                                  <b>Pre-Order Comment</b><br/>{userCurrentOrder.comment}
+                                </p>
+                                :""}
+                                </div>
                                 <hr />
                                 {userCurrentOrder.orderItems.map(
                                   (orderItem, i) => {
@@ -383,12 +390,19 @@ const MyAccount = () => {
                           {userPreviousOrders.map((userPreviousOrder) => {
                             return (
                               <>
-                                <h4 style={{ textAlign: "center" }}>
+                              <div style={{textAlign: "center", boxShadow: "20px 20px 50px 10px silver inset"}}>
+                                <h4>
                                   {userPreviousOrder.restaurantId.name}
                                 </h4>
-                                <p style={{ textAlign: "center" }}>
+                                <p>
                                   {userPreviousOrder._id}
                                 </p>
+                                {userPreviousOrder.comment !== "" ?
+                                  <p>
+                                  <b>Pre-Order Comment</b><br/>{userPreviousOrder.comment}
+                                </p>
+                                :""}
+                                </div>
 
                                 <table
                                   className="table"

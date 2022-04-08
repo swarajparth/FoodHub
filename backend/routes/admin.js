@@ -67,15 +67,6 @@ router.post("/api/forgot-password", async (req, res) =>{
         if(!userExist){
             return res.status(400).json({error: "Email doesn't match with any user"});
         }
-        
-        // const nodemailer = require("nodemailer");
-        // const transporter = nodemailer.createTransport({
-        //     service: "gmail",
-        //     auth:{
-        //         user: "swaraj.parth99@gmail.com",
-        //         pass: process.env.PASS
-        //     }
-        // });
 
         const otp = 100000 + Math.floor((Math.random() * 900000));
 
@@ -147,15 +138,6 @@ router.post("/api/forgot-password-restaurant", async (req, res) =>{
             return res.status(400).json({error: "Email doesn't match with any restaurant"});
         }
         
-        // const nodemailer = require("nodemailer");
-        // const transporter = nodemailer.createTransport({
-        //     service: "gmail",
-        //     auth:{
-        //         user: "swaraj.parth99@gmail.com",
-        //         pass: process.env.PASS
-        //     }
-        // });
-
         const otp = 100000 + Math.floor((Math.random() * 900000));
 
         await Restaurant.updateOne({email:email}, {$set: {otp}});
@@ -184,10 +166,10 @@ router.post("/api/forgot-password-restaurant", async (req, res) =>{
 
 
 router.post("/api/placeOrder", async (req, res) =>{
-    const {userId, restaurantId, total_amount, delivery_address, payment_mode, orderItems} = req.body;
+    const {userId, restaurantId, total_amount, delivery_address, payment_mode, orderItems, comment} = req.body;
 
     try{
-        const order = new Order({userId, restaurantId, total_amount, delivery_address, payment_mode, orderItems});
+        const order = new Order({userId, restaurantId, total_amount, delivery_address, payment_mode, orderItems, comment});
         await order.save();
 
         res.send(order);

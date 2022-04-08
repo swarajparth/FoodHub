@@ -38,7 +38,11 @@ const orderSchema=new mongoose.Schema  ({
         type: String,
         required: true
     },
-    orderItems: []
+    orderItems: [],
+    
+    comment:{
+        type: String
+    }
     
 },{timestamps: true});
 

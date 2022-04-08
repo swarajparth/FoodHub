@@ -43,7 +43,7 @@ export default function Review({userData, values, payment_mode, orderItems, setO
           const itemsJson = JSON.parse(items);
           setOrderItems(itemsJson);
         }
-      }, []) 
+      }, [])
 
   return (
     <React.Fragment>
@@ -58,12 +58,17 @@ export default function Review({userData, values, payment_mode, orderItems, setO
           </ListItem>
         ))}
 
+        <hr/>
+
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
             ₹{orderItems.reduce((sum, orderItem) => sum + (orderItem.amount), 0)}
           </Typography>
         </ListItem>
+
+        <hr/>
+                
       </List>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
@@ -97,6 +102,9 @@ export default function Review({userData, values, payment_mode, orderItems, setO
           </Grid>
         </Grid>
       </Grid>
+      <hr/>
+
+
     </React.Fragment>
   );
 }
