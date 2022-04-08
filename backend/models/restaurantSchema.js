@@ -26,6 +26,10 @@ const restaurantSchema=new mongoose.Schema  ({
     confirm_password : {
         type : String,
         required : true
+    },
+    otp:{
+        type: Number,
+        default: 0
     }
 })
 

@@ -157,7 +157,7 @@ export default function SignIn_Restaurant() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <NavLink className="nav-link" to="#" variant="body2">
+                  <NavLink className="nav-link" to="/forgot-password-restaurant" variant="body2">
                     Forgot password?
                   </NavLink>
                 </Grid>
