@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const app = express();
-const port = 80||process.env.PORT;
+const port = 7000||process.env.PORT;
 const mongoose = require('mongoose');
 const cookieParser = require("cookie-parser");
 
