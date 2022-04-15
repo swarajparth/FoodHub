@@ -1,3 +1,4 @@
+// importing require webpages
 import logo from './logo.svg';
 import './App.css';
 import { useState, createContext, useEffect, useMemo } from "react";
@@ -23,7 +24,7 @@ import Forgot_Password from './components/Forgot_Password/Forgot_Password';
 import Forgot_Password_Restaurant from './components/Forgot_Password/Forgot_Password_Restaurant';
 
 
-//contextAPI
+//context API
 export const UserContext = createContext();
 
 const App = () => {
@@ -40,10 +41,10 @@ const App = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem('isLoggedIn')) {
-      dispatch(true);
+        dispatch(true);
     }
     else if(sessionStorage.getItem('isRestaurantLoggedIn')){
-      dispatch2(true);
+        dispatch2(true);
     }
     
   }, []);
@@ -53,25 +54,25 @@ const App = () => {
       <UserContext.Provider value={providerValue}>
       <Router>
       <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/account' element={<MyAccount/>} />
-        <Route path='/account-restaurant' element={<Account_Restaurant/>} />
-        <Route path='/orders' element={<Orders/>} />
-        <Route path='/menu/:id' element={<Menu/>} />
-        <Route path='/cart' element={<Cart/>} />
-        <Route path='/register' element={<Register/>} />
-        <Route path='/signin' element={<SignIn/>} />
-        <Route path='/signout' element={<SignOut/>} />
-        <Route path='/signout-restaurant' element={<SignOut_Restaurant/>} />
-        <Route path='/about' element={<About/>} />
-        <Route path='/register-restaurant' element={<Register_Restaurant/>} />
-        <Route path='/signin-restaurant' element={<SignIn_Restaurant/>} />
-        <Route path='/restaurants' element={<All_Restaurants/>} />
-        <Route path='/restaurantprofile/:id' element={<RestaurantProfile/>} />
-        <Route path='/checkout' element={<Checkout/>} />
-        <Route path='/forgot-password' element={<Forgot_Password/>} />
-        <Route path='/forgot-password-restaurant' element={<Forgot_Password_Restaurant/>} />
-        <Route path='*' element={<ErrorPage/>} />
+          <Route path='/' element={<Home/>} />
+          <Route path='/account' element={<MyAccount/>} />
+          <Route path='/account-restaurant' element={<Account_Restaurant/>} />
+          <Route path='/orders' element={<Orders/>} />
+          <Route path='/menu/:id' element={<Menu/>} />
+          <Route path='/cart' element={<Cart/>} />
+          <Route path='/register' element={<Register/>} />
+          <Route path='/signin' element={<SignIn/>} />
+          <Route path='/signout' element={<SignOut/>} />
+          <Route path='/signout-restaurant' element={<SignOut_Restaurant/>} />
+          <Route path='/about' element={<About/>} />
+          <Route path='/register-restaurant' element={<Register_Restaurant/>} />
+          <Route path='/signin-restaurant' element={<SignIn_Restaurant/>} />
+          <Route path='/restaurants' element={<All_Restaurants/>} />
+          <Route path='/restaurantprofile/:id' element={<RestaurantProfile/>} />
+          <Route path='/checkout' element={<Checkout/>} />
+          <Route path='/forgot-password' element={<Forgot_Password/>} />
+          <Route path='/forgot-password-restaurant' element={<Forgot_Password_Restaurant/>} />
+          <Route path='*' element={<ErrorPage/>} />
       </Routes>
       </Router>
       </UserContext.Provider>
