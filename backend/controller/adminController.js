@@ -386,7 +386,7 @@ exports.accountRestaurant = async (req, res) => {
 exports.updateMenu = async (req, res) => {
   const { name, price, status, restaurant_email } = req.body;
 
-  if (!name.trim() || !price.trim() || !status.trim()) {
+  if (!name.trim() || !price || !status.trim()) {
     return res.status(422).json({ error: "Please fill the entries properly" });
   }
 
@@ -417,7 +417,7 @@ exports.updateMenu = async (req, res) => {
 exports.updateAccountRestaurant = async (req, res) => {
   const { name, mobile, address, email, _id } = req.body;
 
-  if (!name.trim() || !mobile.trim() || !email.trim() || !address.trim()) {
+  if (!name.trim() || !mobile || !email.trim() || !address.trim()) {
     return res.status(422).json({ error: "Please fill the entries properly" });
   }
 
@@ -440,7 +440,7 @@ exports.updateAccountRestaurant = async (req, res) => {
 exports.updateAccount = async (req, res) => {
   const { name, mobile, address, email, _id } = req.body;
 
-  if (!name.trim() || !mobile.trim() || !email.trim() || !address.trim()) {
+  if (!name.trim() || !mobile || !email.trim() || !address.trim()) {
     return res.status(422).json({ error: "Please fill the entries properly" });
   }
 
@@ -521,7 +521,7 @@ exports.register = async (req, res) => {
 
   if (
     !name.trim() ||
-    !mobile.trim() ||
+    !mobile ||
     !address.trim() ||
     !email.trim() ||
     !password.trim() ||
@@ -596,7 +596,7 @@ exports.registerRestaurant = async (req, res) => {
 
   if (
     !name.trim() ||
-    !mobile.trim() ||
+    !mobile ||
     !email.trim() ||
     !address.trim() ||
     !password.trim() ||
