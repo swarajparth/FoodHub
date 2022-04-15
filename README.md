@@ -31,7 +31,7 @@ npm install
 ```
 
 ### Contributors
-[Swaraj Parth]()<br/>
-[Prasunna Soppa]()<br/>
-[Shyam Marjit]()<br/>
-[Priyanshi]()<br/>
+[Swaraj Parth](https://github.com/swarajparth/)<br/>
+[Prasunna Soppa](https://github.com/Prasunna Soppa/)<br/>
+[Shyam Marjit](https://github.com/shyammarjit/)<br/>
+[Priyanshi](https://github.com/priyanshi/)<br/>
