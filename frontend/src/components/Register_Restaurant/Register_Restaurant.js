@@ -22,7 +22,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Navbar from "../layout/Navbar";
-import {UserContext} from "../../App"
+import { UserContext } from "../../App";
 
 function Copyright(props) {
   return (
@@ -45,17 +45,15 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Register_Restaurant() {
-  
-  const {state2, dispatch2} = React.useContext(UserContext);
-  const {state, dispatch} = React.useContext(UserContext);
+  const { state2, dispatch2 } = React.useContext(UserContext);
+  const { state, dispatch } = React.useContext(UserContext);
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if(state || state2){
-      navigate("/", {replace: true});
+    if (state || state2) {
+      navigate("/", { replace: true });
     }
-  }, [state, state2])
-
+  }, [state, state2]);
 
   const [values, setValues] = React.useState({
     name: "",
@@ -94,34 +92,39 @@ export default function Register_Restaurant() {
     event.preventDefault();
 
     const { name, email, address, mobile, password, confirm_password } = values;
-    
-    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+
+    const regex_email =
+      /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
     //purpose of ? is it makes regex exp optional like whatever part u want
 
-    const regex_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const regex_password =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     const regex_mobile = /^[6-9][0-9]{9}$/;
-    
-    if(!(regex_email.test(email))){
+
+    if (!regex_email.test(email)) {
       window.alert("Please enter a valid email");
       return;
     }
 
-    if(!(regex_password.test(password))){
-      window.alert("Password must have:\n\n Minimum 8 characters,\n At least 1 uppercase letter,\n At least 1 lowercase letter,\n At least 1 number,\n At least 1 special character");
+    if (!regex_password.test(password)) {
+      window.alert(
+        "Password must have:\n\n Minimum 8 characters,\n At least 1 uppercase letter,\n At least 1 lowercase letter,\n At least 1 number,\n At least 1 special character"
+      );
       return;
     }
 
-    if(!(regex_mobile.test(mobile))){
-      window.alert("Please enter a valid mobile number starting with digit >= 6");
+    if (!regex_mobile.test(mobile)) {
+      window.alert(
+        "Please enter a valid mobile number starting with digit >= 6"
+      );
       return;
     }
 
-    if( password!=confirm_password ){
+    if (password != confirm_password) {
       window.alert("Password mismatch");
       return;
     }
-
 
     const res = await fetch("/api/register-restaurant", {
       method: "POST",
@@ -139,11 +142,10 @@ export default function Register_Restaurant() {
     });
 
     const data = await res.json();
-    if(!data){
+    if (!data) {
       window.alert("Technical error");
       console.log("Technical error");
-    }
-    else if (res.status === 422) {
+    } else if (res.status === 422) {
       window.alert(data.error);
       console.log(data.error);
     } else {
@@ -168,7 +170,6 @@ export default function Register_Restaurant() {
               alignItems: "center",
             }}
           >
-
             <Avatar sx={{ m: 1, bgcolor: "error.main" }}>
               <LockOutlinedIcon />
             </Avatar>

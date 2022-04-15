@@ -94,9 +94,9 @@ const Navbar = () => {
                     style={{ justifyContent: "center" }}
                     onClick={handleClose}
                   >
-                  <Badge color="secondary" badgeContent={cartItems()}>
-                  Cart
-                  </Badge>
+                    <Badge color="secondary" badgeContent={cartItems()}>
+                      Cart
+                    </Badge>
                   </MenuItem>
                 </BarsNavBtnLink>
 
@@ -255,7 +255,7 @@ const Navbar = () => {
                   onClick={handleClose}
                 >
                   <Badge color="secondary" badgeContent={cartItems()}>
-                  Cart
+                    Cart
                   </Badge>
                 </MenuItem>
               </BarsNavBtnLink>

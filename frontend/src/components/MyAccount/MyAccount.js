@@ -24,22 +24,23 @@ const MyAccount = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    
-    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+    const regex_email =
+      /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
     //purpose of ? is it makes regex exp optional like whatever part u want
 
     const regex_mobile = /^[6-9][0-9]{9}$/;
-    
-    if(!(regex_email.test(values.email))){
+
+    if (!regex_email.test(values.email)) {
       window.alert("Please enter a valid email");
       return;
     }
 
-    if(!(regex_mobile.test(values.mobile))){
-      window.alert("Please enter a valid mobile number starting with digit >= 6");
+    if (!regex_mobile.test(values.mobile)) {
+      window.alert(
+        "Please enter a valid mobile number starting with digit >= 6"
+      );
       return;
     }
-
 
     const res = await fetch("/api/update-account", {
       method: "POST",
@@ -230,18 +231,24 @@ const MyAccount = () => {
                           {userCurrentOrders.map((userCurrentOrder) => {
                             return (
                               <>
-                              <div style={{textAlign: "center", boxShadow: "20px 20px 50px 10px silver inset"}}>
-                                <h4>
-                                  {userCurrentOrder.restaurantId.name}
-                                </h4>
-                                <p>
-                                  {userCurrentOrder._id}
-                                </p>
-                                {userCurrentOrder.comment !== "" ?
-                                  <p>
-                                  <b>Pre-Order Comment</b><br/>{userCurrentOrder.comment}
-                                </p>
-                                :""}
+                                <div
+                                  style={{
+                                    textAlign: "center",
+                                    boxShadow:
+                                      "20px 20px 50px 10px silver inset",
+                                  }}
+                                >
+                                  <h4>{userCurrentOrder.restaurantId.name}</h4>
+                                  <p>{userCurrentOrder._id}</p>
+                                  {userCurrentOrder.comment !== "" ? (
+                                    <p>
+                                      <b>Pre-Order Comment</b>
+                                      <br />
+                                      {userCurrentOrder.comment}
+                                    </p>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
                                 <hr />
                                 {userCurrentOrder.orderItems.map(
@@ -390,18 +397,24 @@ const MyAccount = () => {
                           {userPreviousOrders.map((userPreviousOrder) => {
                             return (
                               <>
-                              <div style={{textAlign: "center", boxShadow: "20px 20px 50px 10px silver inset"}}>
-                                <h4>
-                                  {userPreviousOrder.restaurantId.name}
-                                </h4>
-                                <p>
-                                  {userPreviousOrder._id}
-                                </p>
-                                {userPreviousOrder.comment !== "" ?
-                                  <p>
-                                  <b>Pre-Order Comment</b><br/>{userPreviousOrder.comment}
-                                </p>
-                                :""}
+                                <div
+                                  style={{
+                                    textAlign: "center",
+                                    boxShadow:
+                                      "20px 20px 50px 10px silver inset",
+                                  }}
+                                >
+                                  <h4>{userPreviousOrder.restaurantId.name}</h4>
+                                  <p>{userPreviousOrder._id}</p>
+                                  {userPreviousOrder.comment !== "" ? (
+                                    <p>
+                                      <b>Pre-Order Comment</b>
+                                      <br />
+                                      {userPreviousOrder.comment}
+                                    </p>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
 
                                 <table

@@ -9,10 +9,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import "../NavLink.css";
-import {UserContext} from "../../App"
+import { UserContext } from "../../App";
 
 function Copyright(props) {
   return (
@@ -35,17 +35,15 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn_Restaurant() {
-  
-  const {state, dispatch} = React.useContext(UserContext);
-  const {state2, dispatch2} = React.useContext(UserContext);
+  const { state, dispatch } = React.useContext(UserContext);
+  const { state2, dispatch2 } = React.useContext(UserContext);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (state || state2) {
-      navigate("/account-restaurant", {replace: true});
+      navigate("/account-restaurant", { replace: true });
     }
-  }, [state, state2])
-
+  }, [state, state2]);
 
   const [values, setValues] = React.useState({
     email: "",
@@ -58,17 +56,18 @@ export default function SignIn_Restaurant() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const {email, password} = values;
 
-    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+    const { email, password } = values;
+
+    const regex_email =
+      /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
     //purpose of ? is it makes regex exp optional like whatever part u want
 
-    if(!(regex_email.test(email))){
+    if (!regex_email.test(email)) {
       window.alert("Please enter a valid email");
       return;
     }
-    
+
     const res = await fetch("/api/signin-restaurant", {
       method: "POST",
       headers: {
@@ -76,21 +75,20 @@ export default function SignIn_Restaurant() {
       },
       body: JSON.stringify({
         email,
-        password
+        password,
       }),
     });
 
     const data = await res.json();
-    if(!data){
+    if (!data) {
       window.alert("Technical error");
       console.log("Technical error");
-    }
-    else if (res.status === 422 || res.status === 400) {
+    } else if (res.status === 422 || res.status === 400) {
       window.alert(data.error);
       console.log(data.error);
     } else {
       dispatch2(true);
-      sessionStorage.setItem('isRestaurantLoggedIn', true);
+      sessionStorage.setItem("isRestaurantLoggedIn", true);
       console.log(data.message);
       navigate("/account-restaurant");
     }
@@ -157,7 +155,11 @@ export default function SignIn_Restaurant() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <NavLink className="nav-link" to="/forgot-password-restaurant" variant="body2">
+                  <NavLink
+                    className="nav-link"
+                    to="/forgot-password-restaurant"
+                    variant="body2"
+                  >
                     Forgot password?
                   </NavLink>
                 </Grid>

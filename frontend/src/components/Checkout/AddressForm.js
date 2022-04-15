@@ -1,15 +1,12 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 
-
-export default function AddressForm({values, setValues}) {
-
-    const handleChangeValues = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
+export default function AddressForm({ values, setValues }) {
+  const handleChangeValues = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   return (
     <React.Fragment>
@@ -68,10 +65,8 @@ export default function AddressForm({values, setValues}) {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
-        </Grid>
+        <Grid item xs={12}></Grid>
       </Grid>
     </React.Fragment>
   );
-  
 }

@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "../layout/Navbar";
 import "../NavLink.css";
-import {UserContext} from "../../App"
+import { UserContext } from "../../App";
 
 function Copyright(props) {
   return (
@@ -35,31 +35,27 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  
-  const {state, dispatch} = React.useContext(UserContext);
-  const {state2, dispatch2} = React.useContext(UserContext);
+  const { state, dispatch } = React.useContext(UserContext);
+  const { state2, dispatch2 } = React.useContext(UserContext);
   const navigate = useNavigate();
 
-  React.useEffect(async() => {
+  React.useEffect(async () => {
     const isCartNotEmpty = await sessionStorage.getItem("cartDishes");
 
     if (state2) {
-      navigate("/", {replace: true});
-    }
-    else if(state){
-      if( isCartNotEmpty){
-        navigate("/checkout", {replace: true});      
-      }
-      else{
-        navigate("/", {replace: true});
+      navigate("/", { replace: true });
+    } else if (state) {
+      if (isCartNotEmpty) {
+        navigate("/checkout", { replace: true });
+      } else {
+        navigate("/", { replace: true });
       }
     }
-  }, [state, state2])
-
+  }, [state, state2]);
 
   const [values, setValues] = React.useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChangeValues = (prop) => (event) => {
@@ -68,17 +64,17 @@ export default function SignIn() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const {email, password} = values;
 
-    const regex_email = /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
+    const { email, password } = values;
+
+    const regex_email =
+      /^([a-z A-Z 0-9 \.-_]+)@([a-z A-Z 0-9 \.-_]+)\.([a-z]+)(\.[a-z]{2,5})?$/;
     //purpose of ? is it makes regex exp optional like whatever part u want
 
-    if(!(regex_email.test(email))){
+    if (!regex_email.test(email)) {
       window.alert("Please enter a valid email");
       return;
     }
-
 
     const res = await fetch("/api/signin", {
       method: "POST",
@@ -87,34 +83,32 @@ export default function SignIn() {
       },
       body: JSON.stringify({
         email,
-        password
+        password,
       }),
     });
 
     const data = await res.json();
 
-    if(!data){
+    if (!data) {
       window.alert("Technical error");
       console.log("Technical error");
-    }
-    else if (res.status === 422 || res.status === 400) {
+    } else if (res.status === 422 || res.status === 400) {
       window.alert(data.error);
       console.log(data.error);
     } else {
       dispatch(true);
 
-      sessionStorage.setItem('isLoggedIn', true);
+      sessionStorage.setItem("isLoggedIn", true);
       sessionStorage.setItem("userId", data._id);
 
       console.log(data.message);
 
       const isCartNotEmpty = await sessionStorage.getItem("cartDishes");
 
-      if( isCartNotEmpty){
-        navigate("/checkout", {replace: true});      
-      }
-      else{
-        navigate("/", {replace: true});
+      if (isCartNotEmpty) {
+        navigate("/checkout", { replace: true });
+      } else {
+        navigate("/", { replace: true });
       }
     }
   };
