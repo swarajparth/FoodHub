@@ -30,4 +30,8 @@ cd backend
 npm install
 ```
 
-### Contributions
+### Contributors
+[Swaraj Parth]()
+[Prasunna Soppa]()
+[Shyam Marjit]()
+[Priyanshi]()
