@@ -25,5 +25,7 @@ Go to the project root directory and run the following commands
 
 ```
 cd backend
+```
+```
 npm install
 ```
