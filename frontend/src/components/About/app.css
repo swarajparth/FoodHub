@@ -46,15 +46,6 @@ a{
 #signin{
     padding-left: 10px;
 }
-/* 
-#dashboard{
-    width: 100%;
-    height: 800px;
-    background-image: url(./img/all-bg.jpg);
-    background-repeat: no-repeat;
-    padding: 20px;
-} */
-
 
 #dashboard{
     background-image: url(./img/all-bg.jpg);
@@ -75,13 +66,8 @@ a{
     font-family: cursive;
     font-size: 60px;
 }
-/* 
-#dashboard h1{
-    color: aliceblue;
-    margin-left: 200px;
-    font-family: cursive;
-    font-size: 60px;
-} */
+
+
 #dashboard-caption{
     margin-top: 100px;
     padding-left: 40px;
