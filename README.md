@@ -32,6 +32,6 @@ npm install
 
 ### Contributors
 [Swaraj Parth](https://github.com/swarajparth/)<br/>
-[Prasunna Soppa](https://github.com/Prasunna Soppa/)<br/>
+[Prasunna Soppa](https://github.com/prasunna09/)<br/>
 [Shyam Marjit](https://github.com/shyammarjit/)<br/>
 [Priyanshi](https://github.com/priyanshi/)<br/>
