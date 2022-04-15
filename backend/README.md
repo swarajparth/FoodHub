@@ -12,6 +12,8 @@ For more information, visit [Node.js](https://nodejs.org) website.
 
 ```PowerShell
 node -v
+```
+```
 npm -v
 ```
 
