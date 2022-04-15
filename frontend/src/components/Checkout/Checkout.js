@@ -43,7 +43,8 @@ export default function Checkout() {
   const [userData, setUserData] = React.useState({});
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const [payment_mode, setPaymentMode] = React.useState("Cash on Delivery");
+  const [payment_mode, setPaymentMode] = React.useState("");
+  // const [payment_mode, setPaymentMode] = React.useState("Cash on Delivery");
   const [orderItems, setOrderItems] = React.useState([{}]);
 
   const [comment, setComment] = React.useState("");
@@ -58,6 +59,113 @@ export default function Checkout() {
   const handleChangeValues = () => (event) => {
     setComment(event.target.value);
   };
+
+
+  function loadScript(src) {
+    return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => {
+            resolve(true);
+        };
+        script.onerror = () => {
+            resolve(false);
+        };
+        document.body.appendChild(script);
+    });
+}
+
+async function displayRazorpay() {
+
+    const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        return false;
+    }
+
+    const total_amount = orderItems.reduce(
+      (sum, orderItem) => sum + orderItem.amount,
+      0
+    );
+
+    const orderDetails = {
+      amount: (total_amount * 100)
+    };
+    console.log(orderDetails);
+    const rzpresult = await fetch('/api/rzpOrder', {
+      method:'POST',
+      headers: {
+      "Content-Type": "application/json",
+      },
+    body: JSON.stringify(orderDetails)
+  });
+    
+    const result = await rzpresult.json();
+    console.log(result)
+    // const result = await axios.post("http://localhost:5000/api/rzpOrder", total_amount);
+
+    if (!result) {
+        alert("Server error. Are you online?");
+        return false;
+    }
+
+    const { amount, id: order_id, currency } = result;
+
+    const options = {
+        key: "rzp_test_GW44ia4GVRuZ9F", // Enter the Key ID generated from the Dashboard
+        amount: amount.toString(),
+        currency: currency,
+        name: "FoodHub",
+        description: "Test Transaction",
+        order_id: order_id,
+        handler: async function (response) {
+            const data = {
+                orderCreationId: order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpaySignature: response.razorpay_signature,
+            };
+
+            const rzpresult = await fetch('/api/rzpSuccess', {
+              method:'POST',
+              headers: {
+              "Content-Type": "application/json",
+              },
+            body: JSON.stringify(data)
+          });
+    
+            const result = await rzpresult.json();
+            console.log(result);
+            alert(result.msg);
+          
+          if(result.msg === "success")  {
+            await placeOrder();
+            setActiveStep(activeStep + 1);
+          }
+          else{
+            window.alert("Payment and Place Order Failed");
+          }
+        },
+        prefill: {
+            name: "FoodHub",
+            email: "foodhub.services2022@gmail.com",
+            contact: "9999999999",
+        },
+        notes: {
+            address: "FoodHub Corporate Office",
+        },
+        theme: {
+            color: "#D27182",
+        },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+    return true;
+}
 
 
   function getStepContent(step) {
@@ -86,13 +194,33 @@ export default function Checkout() {
     }
   }
 
-  const handleNext = () => {
-    if (activeStep) {
-      setActiveStep(activeStep + 1);
-      if (activeStep == 2) {
+  const handleNext = async() => {
+    if (activeStep === 2) {
+      if(payment_mode === "Cash on Delivery"){
+        setActiveStep(activeStep + 1);
         placeOrder();
       }
-    } else if (values.address1 && values.city && values.zip) {
+      else if(payment_mode === "Razorpay Payment Gateway"){
+        // displayRazorpay().then(async () => {
+        //   await placeOrder();
+        //   setActiveStep(activeStep + 1);
+        //   return;
+        // })
+        // window.alert("Payment and Place Order Failed");
+
+        displayRazorpay();
+        // if(paymentComplete){
+        //   console.log("paymentComplete", paymentComplete);
+          
+        // }
+        // else{
+        // }
+
+      }
+    } else if (activeStep === 1 && payment_mode) {
+      setActiveStep(activeStep + 1);
+      
+    } else if (!activeStep && values.address1 && values.city && values.zip) {
       
       const regex_mobile = /^[0-9]{5,10}$/;
       
@@ -106,6 +234,9 @@ export default function Checkout() {
   };
 
   const handleBack = () => {
+    if(activeStep === 2){
+      setPaymentMode("");
+    }
     setActiveStep(activeStep - 1);
   };
 
@@ -141,7 +272,6 @@ export default function Checkout() {
 
       if (!(res.status === 200)) {
         throw new Error(res.err);
-        window.alert(res.err);
       } else {
         setPlacedOrderId(placedOrder._id);
         sessionStorage.removeItem("cartDishes");

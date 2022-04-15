@@ -21,7 +21,33 @@ export default function PaymentForm({payment_mode, setPaymentMode}) {
         Payment method
       </Typography>
 
+
+
       <FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label"></FormLabel>
+      <RadioGroup
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel
+          value="Cash on Delivery"
+          onChange={handleChange}
+          control={<Radio />}
+          label="Cash on Delivery"
+        />
+
+        <FormControlLabel
+          value="Razorpay Payment Gateway"
+          onChange={handleChange}
+          control={<Radio />}
+          label="Razorpay Payment Gateway"
+        />
+      </RadioGroup>
+    </FormControl>
+
+
+
+      {/* <FormControl>
       <FormLabel id="demo-row-radio-buttons-group-label"></FormLabel>
       <RadioGroup
         row
@@ -92,7 +118,7 @@ export default function PaymentForm({payment_mode, setPaymentMode}) {
         </Grid>
         <Grid item xs={12}>
         </Grid>
-      </Grid>
+      </Grid> */}
     </React.Fragment>
   );
 }

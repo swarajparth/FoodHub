@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controller/adminController');
+const paymentController = require('../controller/paymentController')
 require('../db/connection');
 
 const authenticate = require('../middleware/authenticate');
 const authenticateRestaurant = require('../middleware/authenticateRestaurant');
 
+
+
+router.post("/api/rzpOrder", paymentController.rzpOrder);
+
+router.post("/api/rzpSuccess", paymentController.rzpSuccess);
 
 router.post("/api/change-password", adminController.changePassword)
 

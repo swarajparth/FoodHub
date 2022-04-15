@@ -35,16 +35,21 @@ export const Bars = styled(FaBars)`
     top: 0;
     right: 0;
     transform: translate(-100%, 75%);
-    // font-size: 1.8rem;
     cursor: pointer;
   }
+`;
+
+export const BarsNavBtnLink = styled(Link)`
+  padding: 10px 10px 10px 400px;
+  color: #d32f2f;
+  cursor: pointer;
 `;
 
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
   margin-right: -24px;
-  white-space: nowrap; */
+  white-space: nowrap; 
   @media screen and (max-width: 768px) {
     display: none;
   }

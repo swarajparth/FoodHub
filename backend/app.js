@@ -22,6 +22,10 @@ app.use(express.json());
 app.use(require('./routes/admin'));
 
 
+// middlewares
+app.use(express.json({ extended: false }));
+
+
 app.listen(port, ()=>{
     console.log(`port started at ${port}`);
 })
