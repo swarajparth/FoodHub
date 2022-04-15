@@ -34,4 +34,4 @@ npm install
 [Swaraj Parth](https://github.com/swarajparth/)<br/>
 [Prasunna Soppa](https://github.com/prasunna09/)<br/>
 [Shyam Marjit](https://github.com/shyammarjit/)<br/>
-[Priyanshi](https://github.com/priyanshi/)<br/>
+[Priyanshi](https://github.com/Priyanshi1704/)<br/>
