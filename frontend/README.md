@@ -60,13 +60,9 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+### [Code Splitting](https://facebook.github.io/create-react-app/docs/code-splitting/).
 
-This section has moved [here](https://facebook.github.io/create-react-app/docs/code-splitting/).
-
-### Analyzing the Bundle Size
-
-This section has moved [here](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size/)
+### [Analyzing the Bundle Size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size/)
 
 ### [Making a Progressive Web App](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
