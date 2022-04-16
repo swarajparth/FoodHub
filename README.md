@@ -19,7 +19,6 @@ cd frontend
 npm install
 ```
 
-
 ### Backend
 Go to the project root directory and run the following commands
 
@@ -29,6 +28,7 @@ cd backend
 ```
 npm install
 ```
+
 
 ### Contributors
 [Swaraj Parth](https://github.com/swarajparth/)<br/>
