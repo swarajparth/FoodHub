@@ -3,10 +3,10 @@
 > Online Food Ordering system built using MERN stack.
 
 ## Purpose
-    The purpose of developing this “Online Food Delivery system” is to allow the end-users (most precisely college students or faculties) to go through the dishes     available at the food stalls present in the institute, place their orders and get them delivered according to their convenience.
+   The purpose of developing this “Online Food Delivery system” is to allow the end-users (most precisely college students or faculties) to go through the dishes     available at the food stalls present in the institute, place their orders and get them delivered according to their convenience.
     
 ## Scope
-    It will enable end-users to order food online and get it delivered, thus reducing long queues of customers at the counter and also reducing the workload of the employees at the food stalls (like canteen, Nescafe etc.) available at the institute. This is restricted to the college food stalls only.
+   It will enable end-users to order food online and get it delivered, thus reducing long queues of customers at the counter and also reducing the workload of the employees at the food stalls (like canteen, Nescafe etc.) available at the institute. This is restricted to the college food stalls only.
 
 ## Tech stack
 ### Backend
