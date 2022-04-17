@@ -55,9 +55,9 @@ nodemon app
 
 
 ### Contributors
-[Swaraj Parth](https://github.com/swarajparth/)<br/> Worked on the backend of the project i.e. Database, connections, password encryption, otp mailer in forgot password. Made related documents(SRS, Data flow diagrams).
-[Prasunna Soppa](https://github.com/prasunna09/)<br/> - Created the basic structure and furthermore worked on the styling of the Frontend of the project(i.e. User Interface). Did the Testing of the project and made related documents.
-[Priyanshi](https://github.com/Priyanshi1704/)<br/> Worked on payment gateway (both frontend and backend) and made presentation and related documents.
-[Shyam Marjit](https://github.com/shyammarjit/)<br/> Worked on the Frontend of the project and made related documents.
+[Swaraj Parth](https://github.com/swarajparth/) - Worked on the backend of the project i.e. Database, connections, password encryption, otp mailer in forgot password. Made related documents(SRS, Data flow diagrams). <br/>
+[Prasunna Soppa](https://github.com/prasunna09/) - Created the basic structure and furthermore worked on the styling of the Frontend of the project(i.e. User Interface). Did the Testing of the project and made related documents.<br/>
+[Priyanshi](https://github.com/Priyanshi1704/) - Worked on payment gateway (both frontend and backend) and made presentation and related documents.<br/>
+[Shyam Marjit](https://github.com/shyammarjit/) - Worked on the Frontend of the project and made related documents.<br/>
 
 (Cannot really divide the things specifically, most of the things were done by discussion)
