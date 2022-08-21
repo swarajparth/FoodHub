@@ -51,7 +51,7 @@ cd backend
 npm install
 ```
 ```
-# Run backend (:5000)
+# Run backend (:7000)
 nodemon app
 ```
 
