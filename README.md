@@ -60,6 +60,6 @@ nodemon app
 [Swaraj Parth](https://github.com/swarajparth/) - Worked on the backend of the project i.e. Database, connections, Password encryption, OTP mailer in Forgot Password. Contributed for testing report and other related documents (SRS, Use Case diagram, Data flow diagrams). <br/><br/>
 [Prasunna Soppa](https://github.com/prasunna09/) - Created the basic structure and furthermore worked on the styling of the Frontend of the project(i.e. User Interface). Did the Testing of the project and made related documents.<br/><br/>
 [Priyanshi](https://github.com/Priyanshi1704/) - Worked on Razorpay Payment Gateway integration (both frontend and backend) and made presentation and related documents.<br/><br/>
-[Shyam Marjit](https://github.com/shyammarjit/) - Worked on the frontend of the project, created backend for Cart and Menu pages and made related documents (SRS, DFD for User and Restaurant).<br/><br/>
+[Shyam Marjit](https://github.com/shyammarjit/) - Worked on the frontend of the project, created backend for Cart and Menu pages and made related documents (SRS, Use Case diagram, DFD for User and Restaurant).<br/><br/>
 
 (Cannot really divide the things specifically, most of the things were done by discussion)
